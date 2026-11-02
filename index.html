@@ -254,6 +254,8 @@ document.getElementById('adminLogout').onclick=async()=>{
   updateAdminState(null);
   loginMessage.textContent='You have been logged out.';
 };
+// Public visitors can read published content through the Supabase public SELECT policies.
+loadBannerSettings();loadAbout();loadActivities();loadEvents();
 window.ssfSupabase.auth.getSession().then(({data})=>updateAdminState(data.session));
 window.ssfSupabase.auth.onAuthStateChange((_event,session)=>updateAdminState(session));
 </script><!-- Supabase connection: public publishable key is safe for browser use; access is enforced by RLS. -->
