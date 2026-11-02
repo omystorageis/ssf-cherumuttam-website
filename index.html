@@ -34,7 +34,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <section><h2 data-ml="വാർത്തകളും അറിയിപ്പുകളും" data-en="News & Announcements">വാർത്തകളും അറിയിപ്പുകളും</h2><p class="muted" data-ml="പുതിയ അറിയിപ്പുകൾക്കായി ഈ ഭാഗം പരിശോധിക്കുക." data-en="Check this section for the latest announcements.">പുതിയ അറിയിപ്പുകൾക്കായി ഈ ഭാഗം പരിശോധിക്കുക.</p></section>
 <section><h2 data-ml="നിലവിലെ കമ്മിറ്റി" data-en="Current Committee">നിലവിലെ കമ്മിറ്റി</h2><div class="grid" id="committeePublicGrid"><p class="muted" data-ml="കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ ഉടൻ ചേർക്കും." data-en="Committee details will be added soon.">കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ ഉടൻ ചേർക്കും.</p></div></section>
 <section><h2 data-ml="ഫോട്ടോ ഗാലറി" data-en="Photo Gallery">ഫോട്ടോ ഗാലറി</h2><div class="grid" id="galleryPublicGrid"><p class="muted" data-ml="പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും." data-en="Activity photos will be added soon.">പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.</p></div></section>
-<section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></section>
+<section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><div class="grid" id="usefulLinksPublicGrid"><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></div></section>
 <section><h2 data-ml="സംഭാവന" data-en="Donation">സംഭാവന</h2><p class="muted" data-ml="സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും." data-en="Donation options will be enabled after a secure payment setup is configured.">സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും.</p></section>
 <section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും." data-en="Official contact details will be added after confirmation.">ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും.</p></section>
 <section id="admin" style="display:none"><h2>Admin Login</h2><form id="adminLoginForm"><label for="adminEmail">Email address</label><input id="adminEmail" type="email" value="omystorageis@gmail.com" required autocomplete="username"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"><button type="submit" id="loginSubmit">Login</button><p id="loginMessage" class="muted" role="status"></p></form><div id="adminSignedIn" style="display:none"><p id="signedInMessage">Admin login successful.</p><p class="muted">ഹോംപേജിലെ ബാനർ വിവരങ്ങൾ ഇവിടെ മാറ്റാം.</p><form id="bannerEditor"><label for="bannerTitleMl">ബാനർ തലക്കെട്ട് (മലയാളം)</label><input id="bannerTitleMl" required><label for="bannerTitleEn">Banner title (English)</label><input id="bannerTitleEn" required><label for="bannerDescMl">ബാനർ വിവരണം (മലയാളം)</label><textarea id="bannerDescMl" rows="3"></textarea><label for="bannerDescEn">Banner description (English)</label><textarea id="bannerDescEn" rows="3"></textarea><button type="submit" id="saveBanner">Save banner</button><p id="bannerMessage" class="muted" role="status"></p></form>
@@ -100,6 +100,19 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <p id="galleryMessage" class="muted" role="status"></p>
 </form>
 <div id="galleryAdminList"></div>
+<hr>
+<h3>ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും (Useful Links)</h3>
+<form id="usefulLinkEditor">
+<label for="usefulTitleMl">പേര് (മലയാളം)</label><input id="usefulTitleMl" required>
+<label for="usefulTitleEn">Title (English)</label><input id="usefulTitleEn" required>
+<label for="usefulUrl">ലിങ്ക് (URL)</label><input id="usefulUrl" type="url" required placeholder="https://...">
+<label for="usefulSortOrder">ക്രമം (Sort order)</label><input id="usefulSortOrder" type="number" value="0">
+<label><input id="usefulVisible" type="checkbox" checked style="width:auto;margin-right:8px">വെബ്സൈറ്റിൽ കാണിക്കുക</label><br>
+<button type="submit" id="saveUsefulLink">Add link</button>
+<button type="button" id="cancelUsefulEdit" class="light" style="display:none">Cancel edit</button>
+<p id="usefulLinkMessage" class="muted" role="status"></p>
+</form>
+<div id="usefulLinkAdminList"></div>
 <button type="button" id="adminLogout" class="light">Logout</button></div></section>
 </main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -261,7 +274,7 @@ document.getElementById('bannerEditor').addEventListener('submit',async(e)=>{
 });
 function updateAdminState(session){
   const signedIn=!!session; loginForm.style.display=signedIn?'none':'block'; signedInPanel.style.display=signedIn?'block':'none';
-  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);loadGallery(true);}
+  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);loadGallery(true);loadUsefulLinks(true);}
 }
 document.getElementById('adminBtn').onclick=()=>showAdminPanel();
 loginForm.addEventListener('submit',async(e)=>{
@@ -339,6 +352,33 @@ document.getElementById('galleryEditor').addEventListener('submit',async(e)=>{e.
 document.getElementById('cancelGalleryEdit').onclick=resetGalleryForm;
 
 loadGallery(false);
+let usefulLinkRows=[];let editingUsefulLinkId=null;let usefulLinkAdminMode=false;
+function resetUsefulLinkForm(){editingUsefulLinkId=null;document.getElementById('usefulLinkEditor').reset();document.getElementById('usefulSortOrder').value='0';document.getElementById('usefulVisible').checked=true;document.getElementById('saveUsefulLink').textContent='Add link';document.getElementById('cancelUsefulEdit').style.display='none';}
+function renderUsefulLinks(){
+ const pub=document.getElementById('usefulLinksPublicGrid');pub.replaceChildren();
+ const visible=usefulLinkRows.filter(x=>x.is_visible!==false);
+ if(!visible.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.';p.dataset.en='Official forms and useful links will be added when available.';pub.appendChild(p);}
+ visible.forEach(item=>{const a=document.createElement('a');a.className='tile';a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=lang==='ml'?(item.title_ml||item.title_en):(item.title_en||item.title_ml);a.style.cssText='display:block;color:var(--deep);font-weight:700;text-decoration:none';pub.appendChild(a);});
+ const list=document.getElementById('usefulLinkAdminList');list.replaceChildren();if(!usefulLinkAdminMode)return;
+ usefulLinkRows.forEach(item=>{const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';const label=document.createElement('strong');label.textContent=(item.title_ml||item.title_en)+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
+ const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingUsefulLinkId=item.id;document.getElementById('usefulTitleMl').value=item.title_ml||'';document.getElementById('usefulTitleEn').value=item.title_en||'';document.getElementById('usefulUrl').value=item.url||'';document.getElementById('usefulSortOrder').value=item.sort_order??0;document.getElementById('usefulVisible').checked=item.is_visible!==false;document.getElementById('saveUsefulLink').textContent='Update link';document.getElementById('cancelUsefulEdit').style.display='inline-block';};
+ const del=document.createElement('button');del.type='button';del.className='light';del.textContent='Delete';del.onclick=async()=>{if(!confirm('ഈ ലിങ്ക് നീക്കട്ടെയോ?'))return;const {error}=await window.ssfSupabase.from('useful_links').delete().eq('id',item.id);if(error){document.getElementById('usefulLinkMessage').textContent='നീക്കാൻ കഴിഞ്ഞില്ല.';return;}await loadUsefulLinks(true);};row.append(edit,del);list.appendChild(row);});
+}
+async function loadUsefulLinks(adminMode=false){
+ usefulLinkAdminMode=adminMode;const msg=document.getElementById('usefulLinkMessage');if(adminMode&&msg)msg.textContent='ലിങ്കുകൾ ലോഡ് ചെയ്യുന്നു...';
+ let q=window.ssfSupabase.from('useful_links').select('id,title_ml,title_en,url,sort_order,is_visible').order('sort_order',{ascending:true});
+ if(!adminMode)q=q.eq('is_visible',true);
+ const {data,error}=await q;if(error){if(adminMode&&msg)msg.textContent='ലിങ്കുകൾ ലഭിച്ചില്ല.';return;}
+ usefulLinkRows=data||[];renderUsefulLinks();if(adminMode&&msg)msg.textContent='ലിങ്കുകൾ തയ്യാറാണ്.';
+}
+document.getElementById('usefulLinkEditor').addEventListener('submit',async(e)=>{e.preventDefault();const msg=document.getElementById('usefulLinkMessage'),btn=document.getElementById('saveUsefulLink');btn.disabled=true;msg.textContent='സംരക്ഷിക്കുന്നു...';
+ const payload={title_ml:document.getElementById('usefulTitleMl').value.trim(),title_en:document.getElementById('usefulTitleEn').value.trim(),url:document.getElementById('usefulUrl').value.trim(),sort_order:Number(document.getElementById('usefulSortOrder').value)||0,is_visible:document.getElementById('usefulVisible').checked};
+ const result=editingUsefulLinkId?await window.ssfSupabase.from('useful_links').update(payload).eq('id',editingUsefulLinkId):await window.ssfSupabase.from('useful_links').insert(payload);
+ btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. ലിങ്ക് ശരിയാണെന്ന് പരിശോധിക്കുക.';return;}resetUsefulLinkForm();await loadUsefulLinks(true);msg.textContent='ലിങ്ക് സംരക്ഷിച്ചു.';
+});
+document.getElementById('cancelUsefulEdit').onclick=resetUsefulLinkForm;
+
+loadUsefulLinks(false);
 window.ssfSupabase.auth.getSession().then(({data})=>updateAdminState(data.session));
 window.ssfSupabase.auth.onAuthStateChange((_event,session)=>updateAdminState(session));
 </script><!-- Supabase connection: public publishable key is safe for browser use; access is enforced by RLS. -->
