@@ -37,7 +37,18 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></section>
 <section><h2 data-ml="സംഭാവന" data-en="Donation">സംഭാവന</h2><p class="muted" data-ml="സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും." data-en="Donation options will be enabled after a secure payment setup is configured.">സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും.</p></section>
 <section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും." data-en="Official contact details will be added after confirmation.">ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും.</p></section>
-<section id="admin" style="display:none"><h2>Admin Login</h2><form id="adminLoginForm"><label for="adminEmail">Email address</label><input id="adminEmail" type="email" value="omystorageis@gmail.com" required autocomplete="username"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"><button type="submit" id="loginSubmit">Login</button><p id="loginMessage" class="muted" role="status"></p></form><div id="adminSignedIn" style="display:none"><p id="signedInMessage">Admin login successful.</p><p class="muted">ഹോംപേജിലെ ബാനർ വിവരങ്ങൾ ഇവിടെ മാറ്റാം.</p><form id="bannerEditor"><label for="bannerTitleMl">ബാനർ തലക്കെട്ട് (മലയാളം)</label><input id="bannerTitleMl" required><label for="bannerTitleEn">Banner title (English)</label><input id="bannerTitleEn" required><label for="bannerDescMl">ബാനർ വിവരണം (മലയാളം)</label><textarea id="bannerDescMl" rows="3"></textarea><label for="bannerDescEn">Banner description (English)</label><textarea id="bannerDescEn" rows="3"></textarea><button type="submit" id="saveBanner">Save banner</button><p id="bannerMessage" class="muted" role="status"></p></form><button type="button" id="adminLogout" class="light">Logout</button></div></section>
+<section id="admin" style="display:none"><h2>Admin Login</h2><form id="adminLoginForm"><label for="adminEmail">Email address</label><input id="adminEmail" type="email" value="omystorageis@gmail.com" required autocomplete="username"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"><button type="submit" id="loginSubmit">Login</button><p id="loginMessage" class="muted" role="status"></p></form><div id="adminSignedIn" style="display:none"><p id="signedInMessage">Admin login successful.</p><p class="muted">ഹോംപേജിലെ ബാനർ വിവരങ്ങൾ ഇവിടെ മാറ്റാം.</p><form id="bannerEditor"><label for="bannerTitleMl">ബാനർ തലക്കെട്ട് (മലയാളം)</label><input id="bannerTitleMl" required><label for="bannerTitleEn">Banner title (English)</label><input id="bannerTitleEn" required><label for="bannerDescMl">ബാനർ വിവരണം (മലയാളം)</label><textarea id="bannerDescMl" rows="3"></textarea><label for="bannerDescEn">Banner description (English)</label><textarea id="bannerDescEn" rows="3"></textarea><button type="submit" id="saveBanner">Save banner</button><p id="bannerMessage" class="muted" role="status"></p></form>
+<hr>
+<h3>ഞങ്ങളെക്കുറിച്ച് (About Us)</h3>
+<form id="aboutEditor">
+<label for="aboutTitleMl">തലക്കെട്ട് (മലയാളം)</label><input id="aboutTitleMl" required>
+<label for="aboutTitleEn">Title (English)</label><input id="aboutTitleEn" required>
+<label for="aboutBodyMl">വിവരണം (മലയാളം)</label><textarea id="aboutBodyMl" rows="5"></textarea>
+<label for="aboutBodyEn">Description (English)</label><textarea id="aboutBodyEn" rows="5"></textarea>
+<button type="submit" id="saveAbout">Save About Us</button>
+<p id="aboutMessage" class="muted" role="status"></p>
+</form>
+<button type="button" id="adminLogout" class="light">Logout</button></div></section>
 </main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -54,6 +65,37 @@ const loginForm=document.getElementById('adminLoginForm');
 const loginMessage=document.getElementById('loginMessage');
 const signedInPanel=document.getElementById('adminSignedIn');
 function showAdminPanel(){adminPanel.style.display='block';adminPanel.scrollIntoView({behavior:'smooth'});}
+let aboutRowId=null;
+const aboutSection=document.querySelector('main > section');
+function applyAbout(){
+  const h=aboutSection.querySelector('h2'), p=aboutSection.querySelector('p');
+  h.dataset.ml=document.getElementById('aboutTitleMl').value;
+  h.dataset.en=document.getElementById('aboutTitleEn').value;
+  p.dataset.ml=document.getElementById('aboutBodyMl').value;
+  p.dataset.en=document.getElementById('aboutBodyEn').value;
+  setLang(lang);
+}
+async function loadAbout(){
+  const msg=document.getElementById('aboutMessage'); msg.textContent='വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു...';
+  const {data,error}=await window.ssfSupabase.from('site_sections').select('id,title_ml,title_en,body_ml,body_en').eq('section_key','about_us').limit(1).maybeSingle();
+  if(error){msg.textContent='About Us വിവരങ്ങൾ ലഭിച്ചില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
+  aboutRowId=data?.id ?? null;
+  document.getElementById('aboutTitleMl').value=data?.title_ml || 'ഞങ്ങളെക്കുറിച്ച്';
+  document.getElementById('aboutTitleEn').value=data?.title_en || 'About Us';
+  document.getElementById('aboutBodyMl').value=data?.body_ml || aboutSection.querySelector('p').dataset.ml;
+  document.getElementById('aboutBodyEn').value=data?.body_en || aboutSection.querySelector('p').dataset.en;
+  msg.textContent='വിവരങ്ങൾ തയ്യാറാണ്.'; applyAbout();
+}
+document.getElementById('aboutEditor').addEventListener('submit',async(e)=>{
+  e.preventDefault(); const msg=document.getElementById('aboutMessage'), save=document.getElementById('saveAbout');
+  save.disabled=true; msg.textContent='സംരക്ഷിക്കുന്നു...';
+  const payload={section_key:'about_us',title_ml:document.getElementById('aboutTitleMl').value.trim(),title_en:document.getElementById('aboutTitleEn').value.trim(),body_ml:document.getElementById('aboutBodyMl').value.trim(),body_en:document.getElementById('aboutBodyEn').value.trim()};
+  const result=aboutRowId!==null?await window.ssfSupabase.from('site_sections').update(payload).eq('id',aboutRowId):await window.ssfSupabase.from('site_sections').insert(payload).select('id').single();
+  save.disabled=false;
+  if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
+  if(result.data?.id) aboutRowId=result.data.id;
+  applyAbout(); msg.textContent='About Us വിവരങ്ങൾ സംരക്ഷിച്ചു.';
+});
 let settingsRowId=null;
 function applyBanner(){
   const heading=document.querySelector('.hero h1'), paragraph=document.getElementById('heroText');
@@ -86,7 +128,7 @@ document.getElementById('bannerEditor').addEventListener('submit',async(e)=>{
 });
 function updateAdminState(session){
   const signedIn=!!session; loginForm.style.display=signedIn?'none':'block'; signedInPanel.style.display=signedIn?'block':'none';
-  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();}
+  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();}
 }
 document.getElementById('adminBtn').onclick=()=>showAdminPanel();
 loginForm.addEventListener('submit',async(e)=>{
