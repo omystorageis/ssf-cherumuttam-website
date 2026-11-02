@@ -37,8 +37,15 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></section>
 <section><h2 data-ml="സംഭാവന" data-en="Donation">സംഭാവന</h2><p class="muted" data-ml="സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും." data-en="Donation options will be enabled after a secure payment setup is configured.">സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും.</p></section>
 <section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും." data-en="Official contact details will be added after confirmation.">ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും.</p></section>
-<section id="admin" style="display:none"><h2>Admin Login</h2><form id="adminLoginForm"><label for="adminEmail">Email address</label><input id="adminEmail" type="email" value="omystorageis@gmail.com" required autocomplete="username"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"><button type="submit" id="loginSubmit">Login</button><p id="loginMessage" class="muted" role="status"></p></form><div id="adminSignedIn" style="display:none"><p id="signedInMessage">Admin login successful.</p><p class="muted">Admin login പ്രവർത്തിക്കുന്നു. വെബ്‌സൈറ്റിലെ വിവരങ്ങൾ മാറ്റാനുള്ള നിയന്ത്രണങ്ങൾ അടുത്ത ഘട്ടത്തിൽ ചേർക്കും.</p><button type="button" id="adminLogout" class="light">Logout</button></div></section>
+<section id="admin" style="display:none"><h2>Admin Login</h2><form id="adminLoginForm"><label for="adminEmail">Email address</label><input id="adminEmail" type="email" value="omystorageis@gmail.com" required autocomplete="username"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"><button type="submit" id="loginSubmit">Login</button><p id="loginMessage" class="muted" role="status"></p></form><div id="adminSignedIn" style="display:none"><p id="signedInMessage">Admin login successful.</p><p class="muted">ഹോംപേജിലെ ബാനർ വിവരങ്ങൾ ഇവിടെ മാറ്റാം.</p><form id="bannerEditor"><label for="bannerTitleMl">ബാനർ തലക്കെട്ട് (മലയാളം)</label><input id="bannerTitleMl" required><label for="bannerTitleEn">Banner title (English)</label><input id="bannerTitleEn" required><label for="bannerDescMl">ബാനർ വിവരണം (മലയാളം)</label><textarea id="bannerDescMl" rows="3"></textarea><label for="bannerDescEn">Banner description (English)</label><textarea id="bannerDescEn" rows="3"></textarea><button type="submit" id="saveBanner">Save banner</button><p id="bannerMessage" class="muted" role="status"></p></form><button type="button" id="adminLogout" class="light">Logout</button></div></section>
 </main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  window.ssfSupabase = window.supabase.createClient(
+    'https://bdxxmkdtkdlqilaljuxt.supabase.co',
+    'sb_publishable_RmycDbDAkorx3LRp78rNHw_JXs4MSMw'
+  );
+</script>
 <script>
 let lang='ml';function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-ml]').forEach(el=>el.textContent=el.dataset[l]);document.getElementById('ml').classList.toggle('light',l!=='ml');document.getElementById('en').classList.toggle('light',l!=='en')}
 document.getElementById('ml').onclick=()=>setLang('ml');document.getElementById('en').onclick=()=>setLang('en');
@@ -47,11 +54,39 @@ const loginForm=document.getElementById('adminLoginForm');
 const loginMessage=document.getElementById('loginMessage');
 const signedInPanel=document.getElementById('adminSignedIn');
 function showAdminPanel(){adminPanel.style.display='block';adminPanel.scrollIntoView({behavior:'smooth'});}
+let settingsRowId=null;
+function applyBanner(){
+  const heading=document.querySelector('.hero h1'), paragraph=document.getElementById('heroText');
+  heading.dataset.ml=document.getElementById('bannerTitleMl').value;
+  heading.dataset.en=document.getElementById('bannerTitleEn').value;
+  paragraph.dataset.ml=document.getElementById('bannerDescMl').value;
+  paragraph.dataset.en=document.getElementById('bannerDescEn').value;
+  setLang(lang);
+}
+async function loadBannerSettings(){
+  const msg=document.getElementById('bannerMessage'); msg.textContent='വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു...';
+  const {data,error}=await window.ssfSupabase.from('site_settings').select('*').order('id',{ascending:true}).limit(1).maybeSingle();
+  if(error){msg.textContent='വിവരങ്ങൾ ലഭിച്ചില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
+  settingsRowId=data?.id ?? null;
+  document.getElementById('bannerTitleMl').value=data?.banner_title_ml || 'SSF ചെറുമുറ്റം യൂണിറ്റ്';
+  document.getElementById('bannerTitleEn').value=data?.banner_title_en || 'SSF CHERUMUTTAM UNIT';
+  document.getElementById('bannerDescMl').value=data?.description_ml || document.getElementById('heroText').dataset.ml;
+  document.getElementById('bannerDescEn').value=data?.description_en || document.getElementById('heroText').dataset.en;
+  msg.textContent='വിവരങ്ങൾ തയ്യാറാണ്.'; applyBanner();
+}
+document.getElementById('bannerEditor').addEventListener('submit',async(e)=>{
+  e.preventDefault(); const msg=document.getElementById('bannerMessage'), save=document.getElementById('saveBanner');
+  save.disabled=true; msg.textContent='സംരക്ഷിക്കുന്നു...';
+  const payload={banner_title_ml:document.getElementById('bannerTitleMl').value.trim(),banner_title_en:document.getElementById('bannerTitleEn').value.trim(),description_ml:document.getElementById('bannerDescMl').value.trim(),description_en:document.getElementById('bannerDescEn').value.trim()};
+  let result=settingsRowId!==null?await window.ssfSupabase.from('site_settings').update(payload).eq('id',settingsRowId):await window.ssfSupabase.from('site_settings').insert(payload).select('id').single();
+  save.disabled=false;
+  if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
+  if(result.data?.id) settingsRowId=result.data.id;
+  applyBanner(); msg.textContent='ബാനർ വിവരങ്ങൾ സംരക്ഷിച്ചു.';
+});
 function updateAdminState(session){
-  const signedIn=!!session;
-  loginForm.style.display=signedIn?'none':'block';
-  signedInPanel.style.display=signedIn?'block':'none';
-  if(signedIn) document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');
+  const signedIn=!!session; loginForm.style.display=signedIn?'none':'block'; signedInPanel.style.display=signedIn?'block':'none';
+  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();}
 }
 document.getElementById('adminBtn').onclick=()=>showAdminPanel();
 loginForm.addEventListener('submit',async(e)=>{
@@ -74,11 +109,5 @@ document.getElementById('adminLogout').onclick=async()=>{
 window.ssfSupabase.auth.getSession().then(({data})=>updateAdminState(data.session));
 window.ssfSupabase.auth.onAuthStateChange((_event,session)=>updateAdminState(session));
 </script><!-- Supabase connection: public publishable key is safe for browser use; access is enforced by RLS. -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  window.ssfSupabase = window.supabase.createClient(
-    'https://bdxxmkdtkdlqilaljuxt.supabase.co',
-    'sb_publishable_RmycDbDAkorx3LRp78rNHw_JXs4MSMw'
-  );
-</script>
+
 </body></html>
