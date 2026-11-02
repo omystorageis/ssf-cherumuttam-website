@@ -33,7 +33,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <section><h2 data-ml="പരിപാടികളും സംഗമങ്ങളും" data-en="Events & Programmes">പരിപാടികളും സംഗമങ്ങളും</h2><div id="eventsPublicList"><p class="muted" data-ml="പുതിയ പരിപാടികളുടെ വിവരങ്ങൾ ഉടൻ ഇവിടെ പ്രസിദ്ധീകരിക്കും." data-en="Updates about upcoming programmes will be published here.">പുതിയ പരിപാടികളുടെ വിവരങ്ങൾ ഉടൻ ഇവിടെ പ്രസിദ്ധീകരിക്കും.</p></div></section>
 <section><h2 data-ml="വാർത്തകളും അറിയിപ്പുകളും" data-en="News & Announcements">വാർത്തകളും അറിയിപ്പുകളും</h2><p class="muted" data-ml="പുതിയ അറിയിപ്പുകൾക്കായി ഈ ഭാഗം പരിശോധിക്കുക." data-en="Check this section for the latest announcements.">പുതിയ അറിയിപ്പുകൾക്കായി ഈ ഭാഗം പരിശോധിക്കുക.</p></section>
 <section><h2 data-ml="നിലവിലെ കമ്മിറ്റി" data-en="Current Committee">നിലവിലെ കമ്മിറ്റി</h2><div class="grid" id="committeePublicGrid"><p class="muted" data-ml="കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ ഉടൻ ചേർക്കും." data-en="Committee details will be added soon.">കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ ഉടൻ ചേർക്കും.</p></div></section>
-<section><h2 data-ml="ഫോട്ടോ ഗാലറി" data-en="Photo Gallery">ഫോട്ടോ ഗാലറി</h2><p class="muted" data-ml="പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും." data-en="Activity photos will be added soon.">പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.</p></section>
+<section><h2 data-ml="ഫോട്ടോ ഗാലറി" data-en="Photo Gallery">ഫോട്ടോ ഗാലറി</h2><div class="grid" id="galleryPublicGrid"><p class="muted" data-ml="പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും." data-en="Activity photos will be added soon.">പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.</p></div></section>
 <section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></section>
 <section><h2 data-ml="സംഭാവന" data-en="Donation">സംഭാവന</h2><p class="muted" data-ml="സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും." data-en="Donation options will be enabled after a secure payment setup is configured.">സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും.</p></section>
 <section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും." data-en="Official contact details will be added after confirmation.">ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും.</p></section>
@@ -87,6 +87,19 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <p id="committeeMessage" class="muted" role="status"></p>
 </form>
 <div id="committeeAdminList"></div>
+<hr>
+<h3>ഫോട്ടോ ഗാലറി (Photo Gallery)</h3>
+<form id="galleryEditor">
+<label for="galleryImageUrl">ഫോട്ടോയുടെ ലിങ്ക് (Image URL)</label><input id="galleryImageUrl" type="url" required placeholder="https://...">
+<label for="galleryCaptionMl">വിവരണം (മലയാളം)</label><input id="galleryCaptionMl">
+<label for="galleryCaptionEn">Caption (English)</label><input id="galleryCaptionEn">
+<label for="gallerySortOrder">ക്രമം (Sort order)</label><input id="gallerySortOrder" type="number" value="0">
+<label><input id="galleryVisible" type="checkbox" checked style="width:auto;margin-right:8px">വെബ്സൈറ്റിൽ കാണിക്കുക</label><br>
+<button type="submit" id="saveGallery">Add photo</button>
+<button type="button" id="cancelGalleryEdit" class="light" style="display:none">Cancel edit</button>
+<p id="galleryMessage" class="muted" role="status"></p>
+</form>
+<div id="galleryAdminList"></div>
 <button type="button" id="adminLogout" class="light">Logout</button></div></section>
 </main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -248,7 +261,7 @@ document.getElementById('bannerEditor').addEventListener('submit',async(e)=>{
 });
 function updateAdminState(session){
   const signedIn=!!session; loginForm.style.display=signedIn?'none':'block'; signedInPanel.style.display=signedIn?'block':'none';
-  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);}
+  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);loadGallery(true);}
 }
 document.getElementById('adminBtn').onclick=()=>showAdminPanel();
 loginForm.addEventListener('submit',async(e)=>{
@@ -299,6 +312,33 @@ document.getElementById('committeeEditor').addEventListener('submit',async(e)=>{
 document.getElementById('cancelCommitteeEdit').onclick=resetCommitteeForm;
 
 loadCommittee(false);
+let galleryRows=[];let editingGalleryId=null;let galleryAdminMode=false;
+function resetGalleryForm(){editingGalleryId=null;document.getElementById('galleryEditor').reset();document.getElementById('gallerySortOrder').value='0';document.getElementById('galleryVisible').checked=true;document.getElementById('saveGallery').textContent='Add photo';document.getElementById('cancelGalleryEdit').style.display='none';}
+function renderGallery(){
+ const pub=document.getElementById('galleryPublicGrid');pub.replaceChildren();
+ if(!galleryRows.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.';p.dataset.en='Activity photos will be added soon.';pub.appendChild(p);}
+ galleryRows.filter(x=>x.is_visible!==false).forEach(item=>{const card=document.createElement('div');card.className='tile';const img=document.createElement('img');img.src=item.image_url;img.alt=item.caption_ml||item.caption_en||'SSF activity photo';img.loading='lazy';img.style.cssText='width:100%;height:210px;object-fit:cover;border-radius:10px';card.appendChild(img);const cap=document.createElement('p');cap.dataset.ml=item.caption_ml||'';cap.dataset.en=item.caption_en||'';card.appendChild(cap);pub.appendChild(card);});
+ setLang(lang);
+ const list=document.getElementById('galleryAdminList');list.replaceChildren();if(!galleryAdminMode)return;
+ galleryRows.forEach(item=>{const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';const img=document.createElement('img');img.src=item.image_url;img.alt='';img.style.cssText='width:100%;max-width:150px;height:90px;object-fit:cover;border-radius:8px';row.appendChild(img);const label=document.createElement('strong');label.textContent=' '+(item.caption_ml||item.caption_en||'Photo')+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
+ const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingGalleryId=item.id;document.getElementById('galleryImageUrl').value=item.image_url||'';document.getElementById('galleryCaptionMl').value=item.caption_ml||'';document.getElementById('galleryCaptionEn').value=item.caption_en||'';document.getElementById('gallerySortOrder').value=item.sort_order??0;document.getElementById('galleryVisible').checked=item.is_visible!==false;document.getElementById('saveGallery').textContent='Update photo';document.getElementById('cancelGalleryEdit').style.display='inline-block';};
+ const del=document.createElement('button');del.type='button';del.className='light';del.textContent='Delete';del.onclick=async()=>{if(!confirm('ഈ ഫോട്ടോ നീക്കട്ടെയോ?'))return;const {error}=await window.ssfSupabase.from('gallery_items').delete().eq('id',item.id);if(error){document.getElementById('galleryMessage').textContent='നീക്കാൻ കഴിഞ്ഞില്ല.';return;}await loadGallery(true);};row.append(edit,del);list.appendChild(row);});
+}
+async function loadGallery(adminMode=false){
+ galleryAdminMode=adminMode;const msg=document.getElementById('galleryMessage');if(adminMode&&msg)msg.textContent='ഫോട്ടോകൾ ലോഡ് ചെയ്യുന്നു...';
+ let q=window.ssfSupabase.from('gallery_items').select('id,image_url,caption_ml,caption_en,sort_order,is_visible').order('sort_order',{ascending:true});
+ if(!adminMode)q=q.eq('is_visible',true);
+ const {data,error}=await q;if(error){if(adminMode&&msg)msg.textContent='ഫോട്ടോകൾ ലഭിച്ചില്ല.';return;}
+ galleryRows=data||[];renderGallery();if(adminMode&&msg)msg.textContent='ഗാലറി തയ്യാറാണ്.';
+}
+document.getElementById('galleryEditor').addEventListener('submit',async(e)=>{e.preventDefault();const msg=document.getElementById('galleryMessage'),btn=document.getElementById('saveGallery');btn.disabled=true;msg.textContent='സംരക്ഷിക്കുന്നു...';
+ const payload={image_url:document.getElementById('galleryImageUrl').value.trim(),caption_ml:document.getElementById('galleryCaptionMl').value.trim(),caption_en:document.getElementById('galleryCaptionEn').value.trim(),sort_order:Number(document.getElementById('gallerySortOrder').value)||0,is_visible:document.getElementById('galleryVisible').checked};
+ const result=editingGalleryId?await window.ssfSupabase.from('gallery_items').update(payload).eq('id',editingGalleryId):await window.ssfSupabase.from('gallery_items').insert(payload);
+ btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. ഫോട്ടോ ലിങ്ക് ശരിയാണെന്ന് പരിശോധിക്കുക.';return;}resetGalleryForm();await loadGallery(true);msg.textContent='ഫോട്ടോ ഗാലറിയിൽ ചേർത്തു.';
+});
+document.getElementById('cancelGalleryEdit').onclick=resetGalleryForm;
+
+loadGallery(false);
 window.ssfSupabase.auth.getSession().then(({data})=>updateAdminState(data.session));
 window.ssfSupabase.auth.onAuthStateChange((_event,session)=>updateAdminState(session));
 </script><!-- Supabase connection: public publishable key is safe for browser use; access is enforced by RLS. -->
