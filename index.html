@@ -37,14 +37,42 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></section>
 <section><h2 data-ml="സംഭാവന" data-en="Donation">സംഭാവന</h2><p class="muted" data-ml="സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും." data-en="Donation options will be enabled after a secure payment setup is configured.">സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും.</p></section>
 <section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും." data-en="Official contact details will be added after confirmation.">ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും.</p></section>
-<section id="admin"><h2>Admin – അടിസ്ഥാന ടെക്സ്റ്റ് എഡിറ്റർ</h2><p class="muted">ഈ പ്രാരംഭ പതിപ്പിൽ മാറ്റങ്ങൾ ഈ ബ്രൗസറിലെ ഈ ഉപകരണത്തിൽ മാത്രം സൂക്ഷിക്കും. ഇത് സുരക്ഷിതമായ ഓൺലൈൻ അഡ്മിൻ ലോഗിൻ അല്ല.</p><label>ബാനർ വാചകം</label><textarea id="editHero" rows="3"></textarea><button id="save">ഈ ഉപകരണത്തിൽ സേവ് ചെയ്യുക</button></section>
+<section id="admin" style="display:none"><h2>Admin Login</h2><form id="adminLoginForm"><label for="adminEmail">Email address</label><input id="adminEmail" type="email" value="omystorageis@gmail.com" required autocomplete="username"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"><button type="submit" id="loginSubmit">Login</button><p id="loginMessage" class="muted" role="status"></p></form><div id="adminSignedIn" style="display:none"><p id="signedInMessage">Admin login successful.</p><p class="muted">Admin login പ്രവർത്തിക്കുന്നു. വെബ്‌സൈറ്റിലെ വിവരങ്ങൾ മാറ്റാനുള്ള നിയന്ത്രണങ്ങൾ അടുത്ത ഘട്ടത്തിൽ ചേർക്കും.</p><button type="button" id="adminLogout" class="light">Logout</button></div></section>
 </main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
 <script>
 let lang='ml';function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-ml]').forEach(el=>el.textContent=el.dataset[l]);document.getElementById('ml').classList.toggle('light',l!=='ml');document.getElementById('en').classList.toggle('light',l!=='en')}
 document.getElementById('ml').onclick=()=>setLang('ml');document.getElementById('en').onclick=()=>setLang('en');
-document.getElementById('adminBtn').onclick=()=>{let p=prompt('Demo editor access: enter preview code');if(p==='SSF-DEMO'){document.getElementById('admin').style.display='block';document.getElementById('editHero').value=document.getElementById('heroText').textContent;document.getElementById('admin').scrollIntoView({behavior:'smooth'})}else if(p!==null)alert('Incorrect preview code')};
-document.getElementById('save').onclick=()=>{let v=document.getElementById('editHero').value;document.getElementById('heroText').textContent=v;localStorage.setItem('ssfHeroText',v);alert('Saved on this browser only.')};
-const saved=localStorage.getItem('ssfHeroText');if(saved)document.getElementById('heroText').textContent=saved;
+const adminPanel=document.getElementById('admin');
+const loginForm=document.getElementById('adminLoginForm');
+const loginMessage=document.getElementById('loginMessage');
+const signedInPanel=document.getElementById('adminSignedIn');
+function showAdminPanel(){adminPanel.style.display='block';adminPanel.scrollIntoView({behavior:'smooth'});}
+function updateAdminState(session){
+  const signedIn=!!session;
+  loginForm.style.display=signedIn?'none':'block';
+  signedInPanel.style.display=signedIn?'block':'none';
+  if(signedIn) document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');
+}
+document.getElementById('adminBtn').onclick=()=>showAdminPanel();
+loginForm.addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  loginMessage.textContent='Signing in...';
+  const email=document.getElementById('adminEmail').value.trim();
+  const password=document.getElementById('adminPassword').value;
+  const {data,error}=await window.ssfSupabase.auth.signInWithPassword({email,password});
+  document.getElementById('adminPassword').value='';
+  if(error){loginMessage.textContent='Login failed. Please check your email and password.';return;}
+  loginMessage.textContent='';
+  updateAdminState(data.session);
+});
+document.getElementById('adminLogout').onclick=async()=>{
+  const {error}=await window.ssfSupabase.auth.signOut();
+  if(error){loginMessage.textContent='Logout failed. Please try again.';return;}
+  updateAdminState(null);
+  loginMessage.textContent='You have been logged out.';
+};
+window.ssfSupabase.auth.getSession().then(({data})=>updateAdminState(data.session));
+window.ssfSupabase.auth.onAuthStateChange((_event,session)=>updateAdminState(session));
 </script><!-- Supabase connection: public publishable key is safe for browser use; access is enforced by RLS. -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
