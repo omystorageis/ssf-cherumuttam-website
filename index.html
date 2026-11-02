@@ -79,7 +79,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <label for="committeeName">അംഗത്തിന്റെ പേര്</label><input id="committeeName" required>
 <label for="committeeRoleMl">പദവി (മലയാളം)</label><input id="committeeRoleMl" required>
 <label for="committeeRoleEn">Role (English)</label><input id="committeeRoleEn" required>
-<label for="committeePhoto">ഫോട്ടോയുടെ ലിങ്ക് (Photo URL)</label><input id="committeePhoto" type="url" placeholder="https://...">
+<label for="committeePhotoFile">ഫോട്ടോ നേരിട്ട് അപ്‌ലോഡ് ചെയ്യുക (5 MB വരെ)</label><input id="committeePhotoFile" type="file" accept="image/jpeg,image/png,image/webp"><p id="committeeUploadMessage" class="muted" role="status"></p><label for="committeePhoto">അല്ലെങ്കിൽ ഫോട്ടോയുടെ ലിങ്ക് (Photo URL)</label><input id="committeePhoto" type="url" placeholder="https://...">
 <label for="committeeOrder">ക്രമം (Sort order)</label><input id="committeeOrder" type="number" value="0">
 <label><input id="committeeVisible" type="checkbox" checked style="width:auto;margin-right:8px">വെബ്സൈറ്റിൽ കാണിക്കുക</label><br>
 <button type="submit" id="saveCommittee">Add member</button>
@@ -90,7 +90,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <hr>
 <h3>ഫോട്ടോ ഗാലറി (Photo Gallery)</h3>
 <form id="galleryEditor">
-<label for="galleryImageUrl">ഫോട്ടോയുടെ ലിങ്ക് (Image URL)</label><input id="galleryImageUrl" type="url" required placeholder="https://...">
+<label for="galleryImageFile">ഫോട്ടോ നേരിട്ട് അപ്‌ലോഡ് ചെയ്യുക (5 MB വരെ)</label><input id="galleryImageFile" type="file" accept="image/jpeg,image/png,image/webp"><p id="galleryUploadMessage" class="muted" role="status"></p><label for="galleryImageUrl">അല്ലെങ്കിൽ ഫോട്ടോയുടെ ലിങ്ക് (Image URL)</label><input id="galleryImageUrl" type="url" required placeholder="https://...">
 <label for="galleryCaptionMl">വിവരണം (മലയാളം)</label><input id="galleryCaptionMl">
 <label for="galleryCaptionEn">Caption (English)</label><input id="galleryCaptionEn">
 <label for="gallerySortOrder">ക്രമം (Sort order)</label><input id="gallerySortOrder" type="number" value="0">
@@ -296,6 +296,23 @@ document.getElementById('adminLogout').onclick=async()=>{
 };
 // Public visitors can read published content through the Supabase public SELECT policies.
 loadBannerSettings();loadAbout();loadActivities();loadEvents();
+async function uploadSiteImage(file,folder,messageId,urlInputId){
+ const message=document.getElementById(messageId);
+ if(!file)return;
+ const allowed=['image/jpeg','image/png','image/webp'];
+ if(!allowed.includes(file.type)){message.textContent='JPG, PNG, WebP ചിത്രങ്ങൾ മാത്രം അനുവദിക്കും.';return;}
+ if(file.size>5*1024*1024){message.textContent='ചിത്രത്തിന്റെ വലുപ്പം 5 MB-ൽ താഴെയായിരിക്കണം.';return;}
+ message.textContent='ചിത്രം അപ്‌ലോഡ് ചെയ്യുന്നു...';
+ const ext=file.type==='image/jpeg'?'jpg':file.type==='image/png'?'png':'webp';
+ const path=folder+'/'+Date.now()+'-'+crypto.randomUUID()+'.'+ext;
+ const {data,error}=await window.ssfSupabase.storage.from('site-images').upload(path,file,{contentType:file.type,upsert:false});
+ if(error){message.textContent='അപ്‌ലോഡ് പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുക.';return;}
+ const {data:publicData}=window.ssfSupabase.storage.from('site-images').getPublicUrl(data.path);
+ document.getElementById(urlInputId).value=publicData.publicUrl;
+ message.textContent='ചിത്രം അപ്‌ലോഡ് ചെയ്തു. ഇനി Save അമർത്തുക.';
+}
+document.getElementById('committeePhotoFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'committee','committeeUploadMessage','committeePhoto'));
+document.getElementById('galleryImageFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'gallery','galleryUploadMessage','galleryImageUrl'));
 let committeeRows=[];let editingCommitteeId=null;let committeeAdminMode=false;
 function resetCommitteeForm(){editingCommitteeId=null;document.getElementById('committeeEditor').reset();document.getElementById('committeeOrder').value='0';document.getElementById('committeeVisible').checked=true;document.getElementById('saveCommittee').textContent='Add member';document.getElementById('cancelCommitteeEdit').style.display='none';}
 function renderCommittee(){
