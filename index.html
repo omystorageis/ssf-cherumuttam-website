@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ml">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#087443"><meta name="description" content="SSF Cherumuttam Unit official website">
+<title>SSF ചെറുമുറ്റം യൂണിറ്റ്</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700;800&display=swap');
+:root{--green:#087443;--deep:#064b2d;--mint:#eaf7ef;--ink:#183329;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:'Noto Sans Malayalam',Arial,sans-serif;color:var(--ink);background:#f7fbf8;line-height:1.75}
+header{background:var(--white);position:sticky;top:0;z-index:5;box-shadow:0 2px 15px #073c2412}
+.nav{max-width:1100px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-family:'Cooper Black',Georgia,serif;font-size:25px;color:var(--green);font-weight:900;line-height:1.2}.brand small{display:block;font:600 13px 'Noto Sans Malayalam',sans-serif;color:#527262}
+.actions{display:flex;gap:8px;align-items:center}button,a.btn{border:0;border-radius:9px;padding:9px 14px;background:var(--green);color:white;font:600 14px inherit;text-decoration:none;cursor:pointer}.light{background:var(--mint);color:var(--deep)}
+main{max-width:1100px;margin:auto;padding:24px 20px}
+.hero{background:linear-gradient(120deg,#064b2d,#0b8a50);color:white;padding:clamp(35px,7vw,78px) clamp(22px,6vw,65px);border-radius:22px;overflow:hidden;position:relative}
+.hero:after{content:'SSF';position:absolute;right:3%;bottom:-55px;font:900 clamp(100px,20vw,230px) 'Cooper Black',Georgia,serif;color:#ffffff12;pointer-events:none}
+.hero h1{font:900 clamp(34px,6vw,58px)/1.25 'Cooper Black','Noto Sans Malayalam',serif;margin:0 0 12px;position:relative;z-index:1}
+.hero p{max-width:680px;font-size:17px;margin:0;position:relative;z-index:1}
+section{background:white;border:1px solid #e5efe8;border-radius:16px;padding:25px;margin:22px 0;box-shadow:0 5px 22px #0b54300a}
+h2{color:var(--green);font-size:23px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.tile{background:var(--mint);padding:17px;border-radius:12px}.tile h3{margin:0 0 5px;color:var(--deep);font-size:17px}.muted{color:#61776a}
+footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margin-top:35px}
+#admin{display:none;background:#fffdf4;border:1px solid #e9dba8}#admin input,#admin textarea{width:100%;padding:10px;border:1px solid #cbd8ce;border-radius:8px;margin:5px 0 12px;font:inherit}#admin label{font-weight:600}
+@media(max-width:600px){.nav{padding:10px 14px}.brand{font-size:21px}main{padding:16px 13px}section{padding:19px}.hero{border-radius:15px}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="brand">SSF <span data-ml="ചെറുമുറ്റം യൂണിറ്റ്" data-en="CHERUMUTTAM UNIT">ചെറുമുറ്റം യൂണിറ്റ്</span><small data-ml="ധാർമ്മിക വിപ്ലവം" data-en="MORAL REVOLUTION">ധാർമ്മിക വിപ്ലവം</small></div><div class="actions"><button class="light" id="ml">മലയാളം</button><button class="light" id="en">English</button><button id="adminBtn" class="light">Admin</button></div></div></header>
+<main>
+<div class="hero"><h1 data-ml="SSF ചെറുമുറ്റം യൂണിറ്റ്" data-en="SSF CHERUMUTTAM UNIT">SSF ചെറുമുറ്റം യൂണിറ്റ്</h1><p id="heroText" data-ml="അറിവും മൂല്യബോധവും സാമൂഹിക ഉത്തരവാദിത്തവും വളർത്തിയെടുക്കുന്ന വിദ്യാർത്ഥി കൂട്ടായ്മ." data-en="A student community nurturing knowledge, values and social responsibility.">അറിവും മൂല്യബോധവും സാമൂഹിക ഉത്തരവാദിത്തവും വളർത്തിയെടുക്കുന്ന വിദ്യാർത്ഥി കൂട്ടായ്മ.</p></div>
+<section><h2 data-ml="ഞങ്ങളെക്കുറിച്ച്" data-en="About Us">ഞങ്ങളെക്കുറിച്ച്</h2><p data-ml="സുന്നി സ്റ്റുഡന്റ്സ് ഫെഡറേഷന്റെ (SSF) ആശയാദർശങ്ങൾ ഉയർത്തിപ്പിടിച്ച് വിദ്യാർത്ഥികളുടെ വിദ്യാഭ്യാസപരവും ആത്മീയവും ധാർമ്മികവുമായ വളർച്ച ലക്ഷ്യമാക്കി പ്രവർത്തിക്കുന്ന യൂണിറ്റാണ് SSF ചെറുമുറ്റം യൂണിറ്റ്. ‘ധാർമ്മിക വിപ്ലവം’ എന്ന സന്ദേശത്തിലൂടെ അറിവും മൂല്യബോധവും സാമൂഹിക ഉത്തരവാദിത്തവും വളർത്തിയെടുക്കുന്നതിനുള്ള വിവിധ പ്രവർത്തനങ്ങളും പരിപാടികളും യൂണിറ്റ് സംഘടിപ്പിക്കുന്നു." data-en="SSF Cherumuttam Unit works towards the educational, spiritual and moral development of students, promoting knowledge, values and social responsibility through various activities and programmes.">സുന്നി സ്റ്റുഡന്റ്സ് ഫെഡറേഷന്റെ (SSF) ആശയാദർശങ്ങൾ ഉയർത്തിപ്പിടിച്ച് വിദ്യാർത്ഥികളുടെ വിദ്യാഭ്യാസപരവും ആത്മീയവും ധാർമ്മികവുമായ വളർച്ച ലക്ഷ്യമാക്കി പ്രവർത്തിക്കുന്ന യൂണിറ്റാണ് SSF ചെറുമുറ്റം യൂണിറ്റ്. ‘ധാർമ്മിക വിപ്ലവം’ എന്ന സന്ദേശത്തിലൂടെ അറിവും മൂല്യബോധവും സാമൂഹിക ഉത്തരവാദിത്തവും വളർത്തിയെടുക്കുന്നതിനുള്ള വിവിധ പ്രവർത്തനങ്ങളും പരിപാടികളും യൂണിറ്റ് സംഘടിപ്പിക്കുന്നു.</p></section>
+<section><h2 data-ml="പ്രവർത്തനങ്ങൾ" data-en="Activities">പ്രവർത്തനങ്ങൾ</h2><div class="grid"><div class="tile"><h3 data-ml="വിദ്യാഭ്യാസം" data-en="Education">വിദ്യാഭ്യാസം</h3><span data-ml="പഠന-വായനാ പ്രവർത്തനങ്ങൾ" data-en="Learning and reading initiatives">പഠന-വായനാ പ്രവർത്തനങ്ങൾ</span></div><div class="tile"><h3 data-ml="ആത്മീയം" data-en="Spiritual">ആത്മീയം</h3><span data-ml="ആത്മീയവും മൂല്യാധിഷ്ഠിതവുമായ സംഗമങ്ങൾ" data-en="Spiritual and values-based gatherings">ആത്മീയവും മൂല്യാധിഷ്ഠിതവുമായ സംഗമങ്ങൾ</span></div><div class="tile"><h3 data-ml="സാമൂഹികം" data-en="Community">സാമൂഹികം</h3><span data-ml="സേവന-സാമൂഹിക ഇടപെടലുകൾ" data-en="Service and community initiatives">സേവന-സാമൂഹിക ഇടപെടലുകൾ</span></div></div></section>
+<section><h2 data-ml="പരിപാടികളും സംഗമങ്ങളും" data-en="Events & Programmes">പരിപാടികളും സംഗമങ്ങളും</h2><p class="muted" data-ml="പുതിയ പരിപാടികളുടെ വിവരങ്ങൾ ഉടൻ ഇവിടെ പ്രസിദ്ധീകരിക്കും." data-en="Updates about upcoming programmes will be published here.">പുതിയ പരിപാടികളുടെ വിവരങ്ങൾ ഉടൻ ഇവിടെ പ്രസിദ്ധീകരിക്കും.</p></section>
+<section><h2 data-ml="വാർത്തകളും അറിയിപ്പുകളും" data-en="News & Announcements">വാർത്തകളും അറിയിപ്പുകളും</h2><p class="muted" data-ml="പുതിയ അറിയിപ്പുകൾക്കായി ഈ ഭാഗം പരിശോധിക്കുക." data-en="Check this section for the latest announcements.">പുതിയ അറിയിപ്പുകൾക്കായി ഈ ഭാഗം പരിശോധിക്കുക.</p></section>
+<section><h2 data-ml="നിലവിലെ കമ്മിറ്റി" data-en="Current Committee">നിലവിലെ കമ്മിറ്റി</h2><p class="muted" data-ml="കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ഇവിടെ ചേർക്കുന്നതാണ്." data-en="Committee details will be added after confirmation.">കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ഇവിടെ ചേർക്കുന്നതാണ്.</p></section>
+<section><h2 data-ml="ഫോട്ടോ ഗാലറി" data-en="Photo Gallery">ഫോട്ടോ ഗാലറി</h2><p class="muted" data-ml="പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും." data-en="Activity photos will be added soon.">പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.</p></section>
+<section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></section>
+<section><h2 data-ml="സംഭാവന" data-en="Donation">സംഭാവന</h2><p class="muted" data-ml="സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും." data-en="Donation options will be enabled after a secure payment setup is configured.">സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും.</p></section>
+<section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും." data-en="Official contact details will be added after confirmation.">ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും.</p></section>
+<section id="admin"><h2>Admin – അടിസ്ഥാന ടെക്സ്റ്റ് എഡിറ്റർ</h2><p class="muted">ഈ പ്രാരംഭ പതിപ്പിൽ മാറ്റങ്ങൾ ഈ ബ്രൗസറിലെ ഈ ഉപകരണത്തിൽ മാത്രം സൂക്ഷിക്കും. ഇത് സുരക്ഷിതമായ ഓൺലൈൻ അഡ്മിൻ ലോഗിൻ അല്ല.</p><label>ബാനർ വാചകം</label><textarea id="editHero" rows="3"></textarea><button id="save">ഈ ഉപകരണത്തിൽ സേവ് ചെയ്യുക</button></section>
+</main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
+<script>
+let lang='ml';function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-ml]').forEach(el=>el.textContent=el.dataset[l]);document.getElementById('ml').classList.toggle('light',l!=='ml');document.getElementById('en').classList.toggle('light',l!=='en')}
+document.getElementById('ml').onclick=()=>setLang('ml');document.getElementById('en').onclick=()=>setLang('en');
+document.getElementById('adminBtn').onclick=()=>{let p=prompt('Demo editor access: enter preview code');if(p==='SSF-DEMO'){document.getElementById('admin').style.display='block';document.getElementById('editHero').value=document.getElementById('heroText').textContent;document.getElementById('admin').scrollIntoView({behavior:'smooth'})}else if(p!==null)alert('Incorrect preview code')};
+document.getElementById('save').onclick=()=>{let v=document.getElementById('editHero').value;document.getElementById('heroText').textContent=v;localStorage.setItem('ssfHeroText',v);alert('Saved on this browser only.')};
+const saved=localStorage.getItem('ssfHeroText');if(saved)document.getElementById('heroText').textContent=saved;
+</script></body></html>
