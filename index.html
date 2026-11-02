@@ -45,4 +45,12 @@ document.getElementById('ml').onclick=()=>setLang('ml');document.getElementById(
 document.getElementById('adminBtn').onclick=()=>{let p=prompt('Demo editor access: enter preview code');if(p==='SSF-DEMO'){document.getElementById('admin').style.display='block';document.getElementById('editHero').value=document.getElementById('heroText').textContent;document.getElementById('admin').scrollIntoView({behavior:'smooth'})}else if(p!==null)alert('Incorrect preview code')};
 document.getElementById('save').onclick=()=>{let v=document.getElementById('editHero').value;document.getElementById('heroText').textContent=v;localStorage.setItem('ssfHeroText',v);alert('Saved on this browser only.')};
 const saved=localStorage.getItem('ssfHeroText');if(saved)document.getElementById('heroText').textContent=saved;
-</script></body></html>
+</script><!-- Supabase connection: public publishable key is safe for browser use; access is enforced by RLS. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  window.ssfSupabase = window.supabase.createClient(
+    'https://bdxxmkdtkdlqilaljuxt.supabase.co',
+    'sb_publishable_RmycDbDAkorx3LRp78rNHw_JXs4MSMw'
+  );
+</script>
+</body></html>
