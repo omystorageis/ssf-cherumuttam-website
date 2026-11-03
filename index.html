@@ -22,7 +22,14 @@ h2{color:var(--green);font-size:23px;margin:0 0 12px}.grid{display:grid;grid-tem
 footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margin-top:35px}
 #admin{display:none;background:#fffdf4;border:1px solid #e9dba8}#admin input,#admin textarea{width:100%;padding:10px;border:1px solid #cbd8ce;border-radius:8px;margin:5px 0 12px;font:inherit}#admin label{font-weight:600}
 @media(max-width:600px){.nav{padding:10px 14px}.actions{gap:5px;flex-wrap:wrap;justify-content:flex-end}.actions button{padding:8px 10px;font-size:12px}.site-menu{padding:72px 18px 24px}.site-menu a{padding:12px 14px}.brand{font-size:21px}main{padding:16px 13px}section{padding:19px}.hero{border-radius:15px}}
+
+#imageCropModal{position:fixed;inset:0;z-index:2000;background:#0009;display:none;align-items:center;justify-content:center;padding:16px}
+#imageCropModal.open{display:flex}.crop-panel{background:white;width:min(96vw,680px);max-height:92dvh;overflow:auto;border-radius:16px;padding:18px;color:#183329}
+.crop-stage{width:100%;max-height:55dvh;overflow:hidden;background:#eef3ef}.crop-stage img{display:block;max-width:100%;max-height:55dvh}
+.crop-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.crop-preview{display:block;max-width:180px;max-height:120px;object-fit:contain;border:1px solid #d8e5dc;border-radius:8px;margin:8px 0}
+.align-tools{display:flex;gap:6px;align-items:center;margin:4px 0 10px;flex-wrap:wrap}.align-tools button{padding:6px 10px}.align-tools button[aria-pressed="true"]{background:var(--deep);outline:2px solid var(--green)}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css">
 </head>
 <body>
 <header><div class="nav"><div class="brand"><span class="brand-ssf">SSF</span> <span class="brand-unit" data-ml="ചെറുമുറ്റം യൂണിറ്റ്" data-en="CHERUMUTTAM UNIT">CHERUMUTTAM UNIT</span><small id="brandMotto" data-ml="ധാർമ്മിക വിപ്ലവം" data-en="MORAL REVOLUTION">MORAL REVOLUTION</small></div><div class="actions"><button class="light" id="ml">മലയാളം</button><button class="light" id="en">English</button><button id="adminBtn" class="light">Admin</button><button id="menuToggle" class="light menu-toggle" aria-expanded="false">☰ Menu</button></div><nav id="siteMenu" class="site-menu" aria-label="Main menu" hidden></nav></div></header>
@@ -151,8 +158,11 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <button type="submit" id="saveDonation">Save donation details</button><p id="donationMessage" class="muted" role="status"></p>
 </form>
 <button type="button" id="adminLogout" class="light">Logout</button></div></section>
-</main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
+</main>
+<div id="imageCropModal" role="dialog" aria-modal="true" aria-labelledby="cropModalTitle"><div class="crop-panel"><h3 id="cropModalTitle">ചിത്രം ക്രമീകരിക്കുക / Crop image</h3><p class="muted">ചിത്രം ആവശ്യത്തിന് ക്രമീകരിച്ച് Crop & Upload അമർത്തുക.</p><div class="crop-stage"><img id="cropSourceImage" alt="Crop preview"></div><div class="crop-actions"><button type="button" id="cropCancel" class="light">Cancel</button><button type="button" id="cropConfirm">Crop & Upload</button></div><p id="cropStatus" class="muted" role="status"></p></div></div>
+<footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
 <script>
   window.ssfSupabase = window.supabase.createClient(
     'https://bdxxmkdtkdlqilaljuxt.supabase.co',
@@ -179,7 +189,7 @@ function renderEvents(){
     const date=document.createElement('p');date.className='muted';date.textContent=item.event_date||'';card.appendChild(date);
     const desc=document.createElement('p');desc.dataset.ml=item.description_ml||'';desc.dataset.en=item.description_en||'';card.appendChild(desc);pub.appendChild(card);
   });
-  setLang(lang);
+  setLang(lang);applySavedTextAlignments();
   const list=document.getElementById('eventAdminList');list.replaceChildren();
   eventRows.forEach(item=>{
     const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';
@@ -222,7 +232,7 @@ function renderActivities(){
       grid.appendChild(card);
     });
   }
-  setLang(lang);
+  setLang(lang);applySavedTextAlignments();
   const list=document.getElementById('activityAdminList'); list.replaceChildren();
   activityRows.forEach(item=>{
     const row=document.createElement('div'); row.className='tile'; row.style.margin='8px 0';
@@ -256,7 +266,7 @@ function applyAbout(){
   h.dataset.en=document.getElementById('aboutTitleEn').value;
   p.dataset.ml=document.getElementById('aboutBodyMl').value;
   p.dataset.en=document.getElementById('aboutBodyEn').value;
-  setLang(lang);
+  setLang(lang);applySavedTextAlignments();
 }
 async function loadAbout(){
   const msg=document.getElementById('aboutMessage'); msg.textContent='വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു...';
@@ -279,6 +289,26 @@ document.getElementById('aboutEditor').addEventListener('submit',async(e)=>{
   if(result.data?.id) aboutRowId=result.data.id;
   applyAbout(); msg.textContent='About Us വിവരങ്ങൾ സംരക്ഷിച്ചു.';
 });
+
+const textAlignmentTargets={
+ bannerDescMl:'.hero p',bannerDescEn:'.hero p',aboutBodyMl:'main > section:first-of-type p',aboutBodyEn:'main > section:first-of-type p',
+ activityDescMl:'#activitiesGrid .tile span',activityDescEn:'#activitiesGrid .tile span',
+ eventDescMl:'#eventsPublicList .tile p:last-child',eventDescEn:'#eventsPublicList .tile p:last-child',
+ newsBodyMl:'#newsPublicList article p',newsBodyEn:'#newsPublicList article p',
+ contactAddressMl:'#contactPublicDetails p:first-child',contactAddressEn:'#contactPublicDetails p:first-child',
+ donationInstructionsMl:'#donationPublicDetails p:last-child',donationInstructionsEn:'#donationPublicDetails p:last-child'
+};
+function applySavedTextAlignments(){const saved=themeConfig.textAlignments||{};Object.entries(textAlignmentTargets).forEach(([id,selector])=>{document.querySelectorAll(selector).forEach(el=>{el.style.textAlign=saved[id]||'left';});});}
+function setupTextAlignmentTools(){
+ document.querySelectorAll('#admin textarea').forEach(area=>{
+  if(area.dataset.alignmentReady)return;area.dataset.alignmentReady='1';
+  const wrap=document.createElement('div');wrap.className='align-tools';wrap.setAttribute('role','group');wrap.setAttribute('aria-label','Text alignment');
+  const label=document.createElement('span');label.textContent='Text alignment:';wrap.appendChild(label);
+  ['left','center','right','justify'].forEach(value=>{const b=document.createElement('button');b.type='button';b.className='light';b.textContent={left:'Left',center:'Center',right:'Right',justify:'Justify'}[value];b.setAttribute('aria-pressed',(themeConfig.textAlignments?.[area.id]||'left')===value?'true':'false');b.addEventListener('click',async()=>{themeConfig.textAlignments={...(themeConfig.textAlignments||{}),[area.id]:value};wrap.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));area.style.textAlign=value;const msg=document.getElementById(area.id.startsWith('banner')?'bannerMessage':area.id.startsWith('about')?'aboutMessage':area.id.startsWith('activity')?'activityMessage':area.id.startsWith('event')?'eventMessage':area.id.startsWith('news')?'newsMessage':area.id.startsWith('contact')?'contactMessage':'donationMessage');if(msg)msg.textContent='Alignment സംരക്ഷിക്കുന്നു...';const result=await persistSiteSettings({menu_items:menuItems,theme_config:themeConfig});if(msg)msg.textContent=result.error?'Alignment സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.':'Text alignment സംരക്ഷിച്ചു.';applySavedTextAlignments();});wrap.appendChild(b);});
+  area.insertAdjacentElement('beforebegin',wrap);
+ });
+}
+
 let settingsRowId=null;let menuItems=[];let themeConfig={green:'#087443',deep:'#064b2d',mint:'#eaf7ef',background:'#f7fbf8',bannerColor:'#087443',bannerImage:'',mottoMl:'ധാർമ്മിക വിപ്ലവം',mottoEn:'MORAL REVOLUTION'};
 function applyTheme(t=themeConfig){const r=document.documentElement;r.style.setProperty('--green',t.green||'#087443');r.style.setProperty('--deep',t.deep||'#064b2d');r.style.setProperty('--mint',t.mint||'#eaf7ef');r.style.setProperty('--page',t.background||'#f7fbf8');const hero=document.querySelector('.hero');if(hero){hero.style.background=t.bannerImage?'linear-gradient(#0005,#0005),url("'+t.bannerImage.replace(/"/g,'%22')+'") center/cover no-repeat':'linear-gradient(120deg,'+(t.bannerColor||'#064b2d')+','+(t.deep||'#0b8a50')+')';}document.querySelector('meta[name="theme-color"]').content=t.green||'#087443';}
 function getSiteSections(){return [...document.querySelectorAll('main section:not(#admin)')];}
@@ -306,7 +336,7 @@ async function loadBannerSettings(){
   const {data,error}=await window.ssfSupabase.from('site_settings').select('*').order('id',{ascending:true}).limit(1).maybeSingle();
   if(error){msg.textContent='വിവരങ്ങൾ ലഭിച്ചില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
   settingsRowId=data?.id ?? null;
-  menuItems=Array.isArray(data?.menu_items)&&data.menu_items.length?data.menu_items:defaultMenuItems();themeConfig={...themeConfig,...(data?.theme_config||{})};applyTheme();
+  menuItems=Array.isArray(data?.menu_items)&&data.menu_items.length?data.menu_items:defaultMenuItems();themeConfig={...themeConfig,...(data?.theme_config||{})};applyTheme();setupTextAlignmentTools();applySavedTextAlignments();
   document.getElementById('themeGreen').value=themeConfig.green;document.getElementById('themeDeep').value=themeConfig.deep;document.getElementById('themeMint').value=themeConfig.mint;document.getElementById('themePage').value=themeConfig.background;document.getElementById('mottoMl').value=themeConfig.mottoMl||'ധാർമ്മിക വിപ്ലവം';document.getElementById('mottoEn').value=themeConfig.mottoEn||'MORAL REVOLUTION';document.getElementById('bannerBgColor').value=themeConfig.bannerColor||'#087443';document.getElementById('bannerBgUrl').value=themeConfig.bannerImage||'';applyBrand();renderSiteMenu();renderMenuAdmin();
   document.getElementById('bannerTitleMl').value=data?.banner_title_ml || 'SSF ചെറുമുറ്റം യൂണിറ്റ്';
   document.getElementById('bannerTitleEn').value=data?.banner_title_en || 'SSF CHERUMUTTAM UNIT';
@@ -361,24 +391,38 @@ document.getElementById('adminLogout').onclick=async()=>{
 };
 // Public visitors can read published content through the Supabase public SELECT policies.
 loadBannerSettings();loadAbout();loadActivities();loadEvents();
+let activeCropper=null,activeCropResolve=null;
+function cropImageBeforeUpload(file,folder){
+ return new Promise(resolve=>{
+  const modal=document.getElementById('imageCropModal'),img=document.getElementById('cropSourceImage'),status=document.getElementById('cropStatus');
+  activeCropResolve=resolve;status.textContent='';
+  img.src=URL.createObjectURL(file);modal.classList.add('open');
+  img.onload=()=>{if(activeCropper)activeCropper.destroy();const ratio=folder==='banner'?16/5:(folder==='gallery'?4/3:1);activeCropper=new Cropper(img,{viewMode:1,autoCropArea:.88,aspectRatio:ratio,background:false,responsive:true,restore:false});};
+ });
+}
+function closeCropDialog(blob){const modal=document.getElementById('imageCropModal');modal.classList.remove('open');if(activeCropper){activeCropper.destroy();activeCropper=null;}const img=document.getElementById('cropSourceImage');if(img.src.startsWith('blob:'))URL.revokeObjectURL(img.src);if(activeCropResolve){activeCropResolve(blob);activeCropResolve=null;}}
+document.getElementById('cropCancel').addEventListener('click',()=>closeCropDialog(null));
+document.getElementById('cropConfirm').addEventListener('click',()=>{if(!activeCropper)return;const btn=document.getElementById('cropConfirm');btn.disabled=true;activeCropper.getCroppedCanvas({maxWidth:2400,maxHeight:2400,imageSmoothingQuality:'high'}).toBlob(blob=>{btn.disabled=false;if(blob)closeCropDialog(blob);else document.getElementById('cropStatus').textContent='Crop ചെയ്യാൻ കഴിഞ്ഞില്ല.';},'image/jpeg',.9);});
 async function uploadSiteImage(file,folder,messageId,urlInputId){
- const message=document.getElementById(messageId);
- if(!file)return;
+ const message=document.getElementById(messageId);if(!file)return;
  const allowed=['image/jpeg','image/png','image/webp'];
  if(!allowed.includes(file.type)){message.textContent='JPG, PNG, WebP ചിത്രങ്ങൾ മാത്രം അനുവദിക്കും.';return;}
  if(file.size>5*1024*1024){message.textContent='ചിത്രത്തിന്റെ വലുപ്പം 5 MB-ൽ താഴെയായിരിക്കണം.';return;}
- message.textContent='ചിത്രം അപ്‌ലോഡ് ചെയ്യുന്നു...';
- const ext=file.type==='image/jpeg'?'jpg':file.type==='image/png'?'png':'webp';
- const path=folder+'/'+Date.now()+'-'+crypto.randomUUID()+'.'+ext;
- const {data,error}=await window.ssfSupabase.storage.from('site-images').upload(path,file,{contentType:file.type,upsert:false});
+ if(typeof Cropper==='undefined'){message.textContent='Crop സൗകര്യം ലോഡ് ആയില്ല. പേജ് പുതുക്കി ശ്രമിക്കുക.';return;}
+ message.textContent='Crop ചെയ്യാൻ ചിത്രം തയ്യാറാക്കുന്നു...';
+ const cropped=await cropImageBeforeUpload(file,folder);if(!cropped){message.textContent='Upload റദ്ദാക്കി.';return;}
+ message.textContent='Crop ചെയ്ത ചിത്രം അപ്‌ലോഡ് ചെയ്യുന്നു...';
+ const path=folder+'/'+Date.now()+'-'+crypto.randomUUID()+'.jpg';
+ const {data,error}=await window.ssfSupabase.storage.from('site-images').upload(path,cropped,{contentType:'image/jpeg',upsert:false});
  if(error){message.textContent='അപ്‌ലോഡ് പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുക.';return;}
  const {data:publicData}=window.ssfSupabase.storage.from('site-images').getPublicUrl(data.path);
  document.getElementById(urlInputId).value=publicData.publicUrl;
- message.textContent='ചിത്രം അപ്‌ലോഡ് ചെയ്തു. ഇനി Save അമർത്തുക.';
+ let preview=document.getElementById(urlInputId+'Preview');if(!preview){preview=document.createElement('img');preview.id=urlInputId+'Preview';preview.className='crop-preview';document.getElementById(urlInputId).insertAdjacentElement('afterend',preview);}preview.src=publicData.publicUrl;preview.alt='Uploaded image preview';
+ message.textContent='Crop ചെയ്ത് അപ്‌ലോഡ് ചെയ്തു. ഇനി Save അമർത്തുക.';
 }
-document.getElementById('bannerBgFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'banner','bannerBgUploadMessage','bannerBgUrl'));
-document.getElementById('committeePhotoFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'committee','committeeUploadMessage','committeePhoto'));
-document.getElementById('galleryImageFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'gallery','galleryUploadMessage','galleryImageUrl'));
+document.getElementById('bannerBgFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'banner','bannerBgUploadMessage','bannerBgUrl'));document.getElementById('bannerBgFile').addEventListener('change',e=>{const f=e.target.files[0];if(f){let p=document.getElementById('bannerBgUrlPreview');if(!p){p=document.createElement('img');p.id='bannerBgUrlPreview';p.className='crop-preview';document.getElementById('bannerBgUrl').insertAdjacentElement('afterend',p);}p.src=URL.createObjectURL(f);p.alt='Selected image preview';}});
+document.getElementById('committeePhotoFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'committee','committeeUploadMessage','committeePhoto'));document.getElementById('committeePhotoFile').addEventListener('change',e=>{const f=e.target.files[0];if(f){let p=document.getElementById('committeePhotoPreview');if(!p){p=document.createElement('img');p.id='committeePhotoPreview';p.className='crop-preview';document.getElementById('committeePhoto').insertAdjacentElement('afterend',p);}p.src=URL.createObjectURL(f);p.alt='Selected image preview';}});
+document.getElementById('galleryImageFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'gallery','galleryUploadMessage','galleryImageUrl'));document.getElementById('galleryImageFile').addEventListener('change',e=>{const f=e.target.files[0];if(f){let p=document.getElementById('galleryImageUrlPreview');if(!p){p=document.createElement('img');p.id='galleryImageUrlPreview';p.className='crop-preview';document.getElementById('galleryImageUrl').insertAdjacentElement('afterend',p);}p.src=URL.createObjectURL(f);p.alt='Selected image preview';}});
 let committeeRows=[];let editingCommitteeId=null;let committeeAdminMode=false;
 function resetCommitteeForm(){editingCommitteeId=null;document.getElementById('committeeEditor').reset();document.getElementById('committeeOrder').value='0';document.getElementById('committeeVisible').checked=true;document.getElementById('saveCommittee').textContent='Add member';document.getElementById('cancelCommitteeEdit').style.display='none';}
 function renderCommittee(){
@@ -386,7 +430,7 @@ function renderCommittee(){
  const visible=committeeRows.filter(x=>x.is_visible!==false);
  if(!visible.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ ഉടൻ ചേർക്കും.';p.dataset.en='Committee details will be added soon.';pub.appendChild(p);}
  visible.forEach(item=>{const card=document.createElement('div');card.className='tile';if(item.photo_url){const img=document.createElement('img');img.src=item.photo_url;img.alt=item.name||'Committee member';img.loading='lazy';img.style.cssText='width:100%;max-height:220px;object-fit:cover;border-radius:10px;margin-bottom:10px';card.appendChild(img);}const n=document.createElement('h3');n.textContent=item.name||'';card.appendChild(n);const role=document.createElement('p');role.dataset.ml=item.role_ml||'';role.dataset.en=item.role_en||'';card.appendChild(role);pub.appendChild(card);});
- setLang(lang);
+ setLang(lang);applySavedTextAlignments();
  const list=document.getElementById('committeeAdminList');list.replaceChildren();
  if(!committeeAdminMode)return;
  committeeRows.forEach(item=>{const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';const label=document.createElement('strong');label.textContent=(item.name||'')+' — '+(item.role_ml||item.role_en||'')+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
@@ -414,7 +458,7 @@ function renderGallery(){
  const pub=document.getElementById('galleryPublicGrid');pub.replaceChildren();
  if(!galleryRows.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.';p.dataset.en='Activity photos will be added soon.';pub.appendChild(p);}
  galleryRows.filter(x=>x.is_visible!==false).forEach(item=>{const card=document.createElement('div');card.className='tile';const img=document.createElement('img');img.src=item.image_url;img.alt=item.caption_ml||item.caption_en||'SSF activity photo';img.loading='lazy';img.style.cssText='width:100%;height:210px;object-fit:cover;border-radius:10px';card.appendChild(img);const cap=document.createElement('p');cap.dataset.ml=item.caption_ml||'';cap.dataset.en=item.caption_en||'';card.appendChild(cap);pub.appendChild(card);});
- setLang(lang);
+ setLang(lang);applySavedTextAlignments();
  const list=document.getElementById('galleryAdminList');list.replaceChildren();if(!galleryAdminMode)return;
  galleryRows.forEach(item=>{const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';const img=document.createElement('img');img.src=item.image_url;img.alt='';img.style.cssText='width:100%;max-width:150px;height:90px;object-fit:cover;border-radius:8px';row.appendChild(img);const label=document.createElement('strong');label.textContent=' '+(item.caption_ml||item.caption_en||'Photo')+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
  const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingGalleryId=item.id;document.getElementById('galleryImageUrl').value=item.image_url||'';document.getElementById('galleryCaptionMl').value=item.caption_ml||'';document.getElementById('galleryCaptionEn').value=item.caption_en||'';document.getElementById('gallerySortOrder').value=item.sort_order??0;document.getElementById('galleryVisible').checked=item.is_visible!==false;document.getElementById('saveGallery').textContent='Update photo';document.getElementById('cancelGalleryEdit').style.display='inline-block';};
@@ -515,6 +559,7 @@ function renderContact(){
  if(address){const p=document.createElement('p');p.style.whiteSpace='pre-wrap';p.textContent=address;pub.appendChild(p);}
  if(contactRow.phone){const p=document.createElement('p');const a=document.createElement('a');a.href='tel:'+contactRow.phone;a.textContent=contactRow.phone;p.append('Phone: ',a);pub.appendChild(p);}
  if(contactRow.email){const p=document.createElement('p');const a=document.createElement('a');a.href='mailto:'+contactRow.email;a.textContent=contactRow.email;p.append('Email: ',a);pub.appendChild(p);}
+ applySavedTextAlignments();
  if(contactRow.map_url){const p=document.createElement('p');const a=document.createElement('a');a.href=contactRow.map_url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=lang==='ml'?'മാപ്പിൽ കാണുക':'View map';pub.appendChild(p);p.appendChild(a);}
 }
 async function loadContact(adminMode=false){
@@ -553,7 +598,7 @@ function renderDonation(){
  if(donationRow.qr_image_url){const img=document.createElement('img');img.src=donationRow.qr_image_url;img.alt='Donation QR code';img.loading='lazy';img.style.cssText='display:block;width:100%;max-width:260px;height:auto;border-radius:12px;margin:12px 0';pub.appendChild(img);}
  if(donationRow.upi_id){const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent='UPI ID: ';p.append(strong,donationRow.upi_id);pub.appendChild(p);}
  const instructions=lang==='ml'?(donationRow.instructions_ml||donationRow.instructions_en):(donationRow.instructions_en||donationRow.instructions_ml);
- if(instructions){const p=document.createElement('p');p.style.whiteSpace='pre-wrap';p.textContent=instructions;pub.appendChild(p);}
+ if(instructions){const p=document.createElement('p');p.style.textAlign=(themeConfig.textAlignments||{})[lang==='ml'?'donationInstructionsMl':'donationInstructionsEn']||'left';p.style.whiteSpace='pre-wrap';p.textContent=instructions;pub.appendChild(p);}
 }
 async function loadDonation(adminMode=false){
  donationAdminMode=adminMode;const msg=document.getElementById('donationMessage');
@@ -571,7 +616,7 @@ async function loadDonation(adminMode=false){
  }
  renderDonation();if(adminMode&&msg)msg.textContent='Donation ക്രമീകരണം തയ്യാറാണ്.';
 }
-document.getElementById('donationQrFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'donation','donationUploadMessage','donationQrUrl'));
+document.getElementById('donationQrFile').addEventListener('change',e=>uploadSiteImage(e.target.files[0],'donation','donationUploadMessage','donationQrUrl'));document.getElementById('donationQrFile').addEventListener('change',e=>{const f=e.target.files[0];if(f){let p=document.getElementById('donationQrUrlPreview');if(!p){p=document.createElement('img');p.id='donationQrUrlPreview';p.className='crop-preview';document.getElementById('donationQrUrl').insertAdjacentElement('afterend',p);}p.src=URL.createObjectURL(f);p.alt='Selected image preview';}});
 document.getElementById('donationEditor').addEventListener('submit',async(e)=>{
  e.preventDefault();const msg=document.getElementById('donationMessage'),btn=document.getElementById('saveDonation');btn.disabled=true;msg.textContent='സംരക്ഷിക്കുന്നു...';
  const payload={upi_id:document.getElementById('donationUpiId').value.trim(),qr_image_url:document.getElementById('donationQrUrl').value.trim(),instructions_ml:document.getElementById('donationInstructionsMl').value.trim(),instructions_en:document.getElementById('donationInstructionsEn').value.trim(),is_visible:document.getElementById('donationVisible').checked,updated_at:new Date().toISOString()};
