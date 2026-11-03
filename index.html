@@ -344,7 +344,7 @@ const textAlignmentTargets={
  contactAddressMl:'#contactPublicDetails p:first-child',contactAddressEn:'#contactPublicDetails p:first-child',
  donationInstructionsMl:'#donationPublicDetails p:last-child',donationInstructionsEn:'#donationPublicDetails p:last-child'
 };
-function applySavedTextAlignments(){const saved=themeConfig.textAlignments||{};Object.entries(textAlignmentTargets).forEach(([id,selector])=>{document.querySelectorAll(selector).forEach(el=>{el.style.textAlign=saved[id]||'left';});});}
+function applySavedTextAlignments(){const saved=themeConfig.textAlignments||{};Object.entries(textAlignmentTargets).forEach(([id,selector])=>{document.querySelectorAll(selector).forEach(el=>{const alignment=saved[id]||'left';el.style.textAlign=alignment;if(selector==='.hero p'){el.style.marginLeft=alignment==='center'?'auto':'0';el.style.marginRight=alignment==='center'?'auto':'0';}});});}
 function setupTextAlignmentTools(){
  const fieldIds=['bannerTitleMl','bannerTitleEn','menuLabelMl','menuLabelEn','activityTitleMl','activityTitleEn','eventTitleMl','eventTitleEn','committeeName','committeeRoleMl','committeeRoleEn','usefulTitleMl','usefulTitleEn','newsTitleMl','newsTitleEn'];
  document.querySelectorAll('#admin textarea, #admin input').forEach(area=>{
