@@ -376,7 +376,7 @@ function setupTextAlignmentTools(){
 let settingsRowId=null;let menuItems=[];let themeConfig={green:'#087443',deep:'#064b2d',mint:'#eaf7ef',background:'#f7fbf8',surface:'#ffffff',line:'#e5efe8',bannerColor:'#087443',bannerImage:'',mottoMl:'ധാർമ്മിക വിപ്ലവം',mottoEn:'MORAL REVOLUTION'};
 function applyTheme(t=themeConfig){const r=document.documentElement;r.style.setProperty('--green',t.green||'#087443');r.style.setProperty('--deep',t.deep||'#064b2d');r.style.setProperty('--mint',t.mint||'#eaf7ef');r.style.setProperty('--page',t.background||'#f7fbf8');r.style.setProperty('--surface',t.surface||'#ffffff');r.style.setProperty('--line',t.line||'#e5efe8');r.style.setProperty('--committee-image-bg',t.mint||'#eaf7ef');r.style.setProperty('--heading-color',t.headingColor||t.green||'#087443');const hero=document.querySelector('.hero');if(hero){hero.style.background=t.bannerImage?'linear-gradient(#0005,#0005),url("'+t.bannerImage.replace(/"/g,'%22')+'") center/cover no-repeat':'linear-gradient(120deg,'+(t.bannerColor||'#064b2d')+','+(t.deep||'#0b8a50')+')';}document.querySelector('meta[name="theme-color"]').content=t.green||'#087443';recolorCommitteePhotos();}
 function recolorCommitteePhotos(){
- const target=(themeConfig&&themeConfig.mint)||'#eaf7ef';
+ const target=(themeConfig&&themeConfig.deep)||'#064b2d';
  document.querySelectorAll('#committeePublicGrid img.committee-photo-source').forEach(img=>{
   if(!img.complete||!img.naturalWidth)return;
   let canvas=img.nextElementSibling;
