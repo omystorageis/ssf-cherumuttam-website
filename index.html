@@ -44,6 +44,16 @@ section.motion-item{transition-delay:.04s}
 @media(hover:hover){.tile:hover,.statistics-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px #0b54301a}.content-card-image:hover{transform:scale(1.015)}button,a.btn,.site-menu a{transition:background-color .2s ease,color .2s ease,transform .2s ease,box-shadow .2s ease}button:hover,a.btn:hover{transform:translateY(-2px);box-shadow:0 5px 12px #064b2d22}}
 @media(prefers-reduced-motion:reduce){.motion-item,.motion-item.is-visible,.hero.motion-item,.hero.motion-item.is-visible,.tile,.content-card-image,.statistics-card,button,a.btn,.site-menu a{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}}
 
+
+#activitiesGrid,#eventsPublicList,#newsPublicList,#usefulLinksPublicGrid,#galleryPublicGrid{display:grid;gap:13px;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr))}
+#activitiesGrid{--cols:4}#eventsPublicList{--cols:2}#newsPublicList{--cols:3}#usefulLinksPublicGrid{--cols:3}#galleryPublicGrid{--cols:2}
+.clamp-two{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;white-space:pre-wrap}
+.clamp-two.expanded{display:block;-webkit-line-clamp:unset}
+.read-more-btn{background:transparent;color:var(--green);padding:4px 0;border:0;box-shadow:none;font-weight:700}
+.donation-layout{display:grid;grid-template-columns:minmax(220px,280px) minmax(0,1fr);gap:24px;align-items:center}
+.donation-layout img{display:block;width:100%;max-width:260px;height:auto;border-radius:12px;margin:12px auto}
+@media(max-width:760px){#activitiesGrid,#eventsPublicList,#newsPublicList,#usefulLinksPublicGrid,#galleryPublicGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.donation-layout{grid-template-columns:1fr}}
+@media(max-width:480px){#activitiesGrid,#eventsPublicList,#newsPublicList,#usefulLinksPublicGrid,#galleryPublicGrid{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css">
 </head>
@@ -94,7 +104,7 @@ section.motion-item{transition-delay:.04s}
 <label for="eventTitleEn">Event title (English)</label><input id="eventTitleEn" required>
 <label for="eventDescMl">വിവരണം (മലയാളം)</label><textarea id="eventDescMl" rows="3"></textarea>
 <label for="eventDescEn">Description (English)</label><textarea id="eventDescEn" rows="3"></textarea>
-<label for="eventDate">തീയതി (Date)</label><input id="eventDate" type="date" required>
+<label for="eventDate">തീയതി (Date)</label><input id="eventDate" type="date" required><label for="eventDay">ദിവസം (Day)</label><input id="eventDay" placeholder="Sunday / ഞായറാഴ്ച"><label for="eventTime">സമയം (Time)</label><input id="eventTime" type="time"><label for="eventVenue">വേദി (Venue)</label><input id="eventVenue" placeholder="Venue / വേദി">
 <label for="eventImageFile">ചിത്രം (ഐച്ഛികം) / Image (Optional)</label><input id="eventImageFile" type="file" accept="image/jpeg,image/png,image/webp"><p id="eventImageUploadMessage" class="muted" role="status"></p><input id="eventImageUrl" type="hidden">
 <button type="submit" id="saveEvent">Add event</button>
 <button type="button" id="cancelEventEdit" class="light" style="display:none">Cancel edit</button>
@@ -220,15 +230,15 @@ function renderEvents(){
   eventRows.forEach(item=>{
     const card=document.createElement('div');card.className='tile';card.style.margin='10px 0';
     const imageUrl=getContentImage('events',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'Event';img.loading='lazy';img.className='content-card-image';card.appendChild(img);}const h=document.createElement('h3');h.dataset.ml=item.title_ml||'';h.dataset.en=item.title_en||'';card.appendChild(h);
-    const date=document.createElement('p');date.className='muted';date.textContent=item.event_date||'';card.appendChild(date);
-    const desc=document.createElement('p');desc.dataset.ml=item.description_ml||'';desc.dataset.en=item.description_en||'';card.appendChild(desc);pub.appendChild(card);
+    const meta=unpackEventDescription(item.description_en).meta;const date=document.createElement('p');date.className='muted';date.textContent=[item.event_date,meta.day,meta.time,meta.venue].filter(Boolean).join(' • ');card.appendChild(date);
+    const desc=document.createElement('p');desc.dataset.ml=unpackEventDescription(item.description_ml).text;desc.dataset.en=unpackEventDescription(item.description_en).text;card.appendChild(desc);pub.appendChild(card);
   });
-  setLang(lang);applySavedTextAlignments();
+  centerLastRow(pub,2);setLang(lang);applySavedTextAlignments();
   const list=document.getElementById('eventAdminList');list.replaceChildren();
   eventRows.forEach(item=>{
     const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';
     const name=document.createElement('strong');name.textContent=(item.title_ml||item.title_en||'Event')+' — '+item.event_date;row.appendChild(name);
-    const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingEventId=item.id;document.getElementById('eventTitleMl').value=item.title_ml||'';document.getElementById('eventTitleEn').value=item.title_en||'';document.getElementById('eventDescMl').value=item.description_ml||'';document.getElementById('eventDescEn').value=item.description_en||'';document.getElementById('eventDate').value=item.event_date||'';setContentImageField('eventImageUrl',getContentImage('events',item.id));document.getElementById('saveEvent').textContent='Update event';document.getElementById('cancelEventEdit').style.display='inline-block';};
+    const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingEventId=item.id;document.getElementById('eventTitleMl').value=item.title_ml||'';document.getElementById('eventTitleEn').value=item.title_en||'';document.getElementById('eventDescMl').value=item.description_ml||'';document.getElementById('eventDescEn').value=item.description_en||'';document.getElementById('eventDate').value=item.event_date||'';const eventMeta=unpackEventDescription(item.description_en).meta;document.getElementById('eventDay').value=eventMeta.day||'';document.getElementById('eventTime').value=eventMeta.time||'';document.getElementById('eventVenue').value=eventMeta.venue||'';document.getElementById('eventDescMl').value=unpackEventDescription(item.description_ml).text;document.getElementById('eventDescEn').value=unpackEventDescription(item.description_en).text;setContentImageField('eventImageUrl',getContentImage('events',item.id));document.getElementById('saveEvent').textContent='Update event';document.getElementById('cancelEventEdit').style.display='inline-block';};
     const del=document.createElement('button');del.type='button';del.className='light';del.textContent='Delete';del.onclick=async()=>{if(!confirm('ഈ പരിപാടി നീക്കട്ടെയോ?'))return;const {error}=await window.ssfSupabase.from('events').delete().eq('id',item.id);if(error){document.getElementById('eventMessage').textContent='നീക്കാൻ കഴിഞ്ഞില്ല.';return;}await loadEvents();};
     row.append(edit,del);list.appendChild(row);
   });
@@ -241,7 +251,7 @@ async function loadEvents(){
 }
 document.getElementById('eventEditor').addEventListener('submit',async(e)=>{
   e.preventDefault();const msg=document.getElementById('eventMessage'),btn=document.getElementById('saveEvent');btn.disabled=true;msg.textContent='സംരക്ഷിക്കുന്നു...';
-  const payload={title_ml:document.getElementById('eventTitleMl').value.trim(),title_en:document.getElementById('eventTitleEn').value.trim(),description_ml:document.getElementById('eventDescMl').value.trim(),description_en:document.getElementById('eventDescEn').value.trim(),event_date:document.getElementById('eventDate').value};
+  const payload={title_ml:document.getElementById('eventTitleMl').value.trim(),title_en:document.getElementById('eventTitleEn').value.trim(),description_ml:document.getElementById('eventDescMl').value.trim()+'\\n[SSF_META:'+JSON.stringify({day:document.getElementById('eventDay').value.trim(),time:document.getElementById('eventTime').value,venue:document.getElementById('eventVenue').value.trim()})+']',description_en:document.getElementById('eventDescEn').value.trim()+'\\n[SSF_META:'+JSON.stringify({day:document.getElementById('eventDay').value.trim(),time:document.getElementById('eventTime').value,venue:document.getElementById('eventVenue').value.trim()})+']',event_date:document.getElementById('eventDate').value};
   let result,savedId=editingEventId;if(editingEventId){result=await window.ssfSupabase.from('events').update(payload).eq('id',editingEventId);}else{result=await window.ssfSupabase.from('events').insert(payload).select('id').single();savedId=result.data?.id;}
   btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}if(document.getElementById('eventImageUrl').value&&savedId){const ok=await saveContentImage('events',savedId,document.getElementById('eventImageUrl').value);if(!ok){msg.textContent='വിവരം സംരക്ഷിച്ചു; ചിത്രം ലിങ്ക് save ചെയ്യാൻ കഴിഞ്ഞില്ല.';return;}}
   resetEventForm();await loadEvents();msg.textContent='പരിപാടി സംരക്ഷിച്ചു.';
@@ -255,6 +265,9 @@ function resetActivityForm(){
   document.getElementById('saveActivity').textContent='Add activity';
   document.getElementById('cancelActivityEdit').style.display='none';
 }
+function centerLastRow(grid,cols){if(!grid)return;const cards=[...grid.children].filter(x=>x.classList.contains('tile')||x.tagName==='A');cards.forEach(x=>x.style.gridColumnStart='');const rem=cards.length%cols;if(!rem)return;const start=Math.floor((cols-rem)/2)+1;cards.slice(-rem).forEach((x,i)=>x.style.gridColumnStart=String(start+i));}
+function appendClamped(parent,text){const p=document.createElement('p');p.className='clamp-two';p.textContent=text||'';parent.appendChild(p);if((text||'').trim().length>100){const b=document.createElement('button');b.type='button';b.className='read-more-btn';b.textContent=lang==='ml'?'കൂടുതൽ വായിക്കുക':'Read more';b.onclick=()=>{const open=p.classList.toggle('expanded');b.textContent=open?(lang==='ml'?'കുറച്ച് വായിക്കുക':'Read less'):(lang==='ml'?'കൂടുതൽ വായിക്കുക':'Read more');};parent.appendChild(b);}}
+function unpackEventDescription(value){const m=String(value||'').match(/\\n?\\[SSF_META:(.*?)\\]$/);if(!m)return {text:String(value||''),meta:{}};try{return {text:String(value||'').slice(0,m.index).trimEnd(),meta:JSON.parse(m[1])};}catch(e){return {text:String(value||''),meta:{}};}}
 function renderActivities(){
   const grid=document.getElementById('activitiesGrid');
   if(activityRows.length){
@@ -262,11 +275,11 @@ function renderActivities(){
     activityRows.forEach(item=>{
       const card=document.createElement('div'); card.className='tile';
       const imageUrl=getContentImage('activities',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'Activity';img.loading='lazy';img.className='content-card-image';card.appendChild(img);}const h=document.createElement('h3'); h.dataset.ml=item.title_ml||''; h.dataset.en=item.title_en||''; card.appendChild(h);
-      const p=document.createElement('span'); p.dataset.ml=item.description_ml||''; p.dataset.en=item.description_en||''; card.appendChild(p);
+      const p=document.createElement('span'); p.dataset.ml=item.description_ml||''; p.dataset.en=item.description_en||''; p.className='clamp-two'; card.appendChild(p);if((item.description_ml||item.description_en||'').length>100){const b=document.createElement('button');b.type='button';b.className='read-more-btn';b.textContent=lang==='ml'?'കൂടുതൽ വായിക്കുക':'Read more';b.onclick=()=>{p.classList.toggle('expanded');b.textContent=p.classList.contains('expanded')?(lang==='ml'?'കുറച്ച് വായിക്കുക':'Read less'):(lang==='ml'?'കൂടുതൽ വായിക്കുക':'Read more');};card.appendChild(b);}
       grid.appendChild(card);
     });
   }
-  setLang(lang);applySavedTextAlignments();
+  centerLastRow(grid,4);setLang(lang);applySavedTextAlignments();
   const list=document.getElementById('activityAdminList'); list.replaceChildren();
   activityRows.forEach(item=>{
     const row=document.createElement('div'); row.className='tile'; row.style.margin='8px 0';
@@ -559,7 +572,7 @@ function renderGallery(){
  const pub=document.getElementById('galleryPublicGrid');pub.replaceChildren();
  if(!galleryRows.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.';p.dataset.en='Activity photos will be added soon.';pub.appendChild(p);}
  galleryRows.filter(x=>x.is_visible!==false).forEach(item=>{const card=document.createElement('div');card.className='tile';const img=document.createElement('img');img.src=item.image_url;img.alt=item.caption_ml||item.caption_en||'SSF activity photo';img.loading='lazy';img.style.cssText='width:100%;height:210px;object-fit:cover;border-radius:10px';card.appendChild(img);const cap=document.createElement('p');cap.dataset.ml=item.caption_ml||'';cap.dataset.en=item.caption_en||'';card.appendChild(cap);pub.appendChild(card);});
- setLang(lang);applySavedTextAlignments();
+ centerLastRow(pub,2);setLang(lang);applySavedTextAlignments();
  const list=document.getElementById('galleryAdminList');list.replaceChildren();if(!galleryAdminMode)return;
  galleryRows.forEach(item=>{const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';const img=document.createElement('img');img.src=item.image_url;img.alt='';img.style.cssText='width:100%;max-width:150px;height:90px;object-fit:cover;border-radius:8px';row.appendChild(img);const label=document.createElement('strong');label.textContent=' '+(item.caption_ml||item.caption_en||'Photo')+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
  const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingGalleryId=item.id;document.getElementById('galleryImageUrl').value=item.image_url||'';document.getElementById('galleryCaptionMl').value=item.caption_ml||'';document.getElementById('galleryCaptionEn').value=item.caption_en||'';document.getElementById('gallerySortOrder').value=item.sort_order??0;document.getElementById('galleryVisible').checked=item.is_visible!==false;document.getElementById('saveGallery').textContent='Update photo';document.getElementById('cancelGalleryEdit').style.display='inline-block';};
@@ -587,6 +600,7 @@ function renderUsefulLinks(){
  const visible=usefulLinkRows.filter(x=>x.is_visible!==false);
  if(!visible.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.';p.dataset.en='Official forms and useful links will be added when available.';pub.appendChild(p);}
  visible.forEach(item=>{const a=document.createElement('a');a.className='tile';a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.style.cssText='display:block;color:var(--deep);font-weight:700;text-decoration:none';const imageUrl=getContentImage('useful-links',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'Useful link';img.loading='lazy';img.className='content-card-image';a.appendChild(img);}const label=document.createElement('span');label.textContent=lang==='ml'?(item.title_ml||item.title_en):(item.title_en||item.title_ml);a.appendChild(label);pub.appendChild(a);});
+ centerLastRow(pub,3);
  const list=document.getElementById('usefulLinkAdminList');list.replaceChildren();if(!usefulLinkAdminMode)return;
  usefulLinkRows.forEach(item=>{const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';const label=document.createElement('strong');label.textContent=(item.title_ml||item.title_en)+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
  const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingUsefulLinkId=item.id;document.getElementById('usefulTitleMl').value=item.title_ml||'';document.getElementById('usefulTitleEn').value=item.title_en||'';document.getElementById('usefulUrl').value=item.url||'';setContentImageField('usefulImageUrl',getContentImage('useful-links',item.id));document.getElementById('usefulSortOrder').value=item.sort_order??0;document.getElementById('usefulVisible').checked=item.is_visible!==false;document.getElementById('saveUsefulLink').textContent='Update link';document.getElementById('cancelUsefulEdit').style.display='inline-block';};
@@ -617,9 +631,10 @@ function renderNews(){
  visible.forEach(item=>{
   const card=document.createElement('article');card.className='tile';card.style.margin='10px 0';
   const imageUrl=getContentImage('news',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'News';img.loading='lazy';img.className='content-card-image';card.appendChild(img);}const h=document.createElement('h3');h.textContent=lang==='ml'?(item.title_ml||item.title_en):(item.title_en||item.title_ml);card.appendChild(h);
-  const body=document.createElement('p');body.style.whiteSpace='pre-wrap';body.textContent=lang==='ml'?(item.body_ml||item.body_en||''):(item.body_en||item.body_ml||'');if(body.textContent)card.appendChild(body);
+  const body=document.createElement('p');body.style.whiteSpace='pre-wrap';body.textContent=lang==='ml'?(item.body_ml||item.body_en||''):(item.body_en||item.body_ml||'');if(body.textContent)appendClamped(card,body.textContent);
   const date=document.createElement('small');date.className='muted';date.textContent=new Date(item.published_at).toLocaleString(lang==='ml'?'ml-IN':'en-IN');card.appendChild(date);pub.appendChild(card);
  });
+ centerLastRow(pub,3);
  const list=document.getElementById('newsAdminList');list.replaceChildren();if(!newsAdminMode)return;
  newsRows.forEach(item=>{
   const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';
@@ -696,10 +711,7 @@ function renderDonation(){
  if(!donationRow||donationRow.is_visible===false){
   const p=document.createElement('p');p.className='muted';p.textContent=lang==='ml'?'സംഭാവനാ വിവരങ്ങൾ ഉടൻ ലഭ്യമാക്കും.':'Donation details will be available soon.';pub.appendChild(p);return;
  }
- if(donationRow.qr_image_url){const img=document.createElement('img');img.src=donationRow.qr_image_url;img.alt='Donation QR code';img.loading='lazy';img.style.cssText='display:block;width:100%;max-width:260px;height:auto;border-radius:12px;margin:12px 0';pub.appendChild(img);}
- if(donationRow.upi_id){const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent='UPI ID: ';p.append(strong,donationRow.upi_id);pub.appendChild(p);}
- const instructions=lang==='ml'?(donationRow.instructions_ml||donationRow.instructions_en):(donationRow.instructions_en||donationRow.instructions_ml);
- if(instructions){const p=document.createElement('p');p.style.textAlign=(themeConfig.textAlignments||{})[lang==='ml'?'donationInstructionsMl':'donationInstructionsEn']||'left';p.style.whiteSpace='pre-wrap';p.textContent=instructions;pub.appendChild(p);}
+ const layout=document.createElement('div');layout.className='donation-layout';const qrBox=document.createElement('div');if(donationRow.qr_image_url){const img=document.createElement('img');img.src=donationRow.qr_image_url;img.alt='Donation QR code';img.loading='lazy';qrBox.appendChild(img);}const info=document.createElement('div');if(donationRow.upi_id){const p=document.createElement('p');const strong=document.createElement('strong');strong.textContent='UPI ID: ';p.append(strong,donationRow.upi_id);info.appendChild(p);}const instructions=lang==='ml'?(donationRow.instructions_ml||donationRow.instructions_en):(donationRow.instructions_en||donationRow.instructions_ml);if(instructions){const p=document.createElement('p');p.style.textAlign=(themeConfig.textAlignments||{})[lang==='ml'?'donationInstructionsMl':'donationInstructionsEn']||'left';p.style.whiteSpace='pre-wrap';p.textContent=instructions;info.appendChild(p);}layout.append(qrBox,info);pub.appendChild(layout);
 }
 async function loadDonation(adminMode=false){
  donationAdminMode=adminMode;const msg=document.getElementById('donationMessage');
