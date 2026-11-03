@@ -325,9 +325,21 @@ document.getElementById('bannerEditor').addEventListener('submit',async(e)=>{
   if(result.data?.id) settingsRowId=result.data.id;
   applyBanner();applyBrand();applyTheme(); msg.textContent='ബാനർ വിവരങ്ങൾ സംരക്ഷിച്ചു.';
 });
+const ADMIN_USER_ID='f7351cef-b321-41f2-955e-e0249007eda1';
 function updateAdminState(session){
-  const signedIn=!!session; loginForm.style.display=signedIn?'none':'block'; signedInPanel.style.display=signedIn?'block':'none';
-  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);loadGallery(true);loadUsefulLinks(true);loadNews(true);loadContact(true);loadDonation(true);}
+  const signedIn=!!session;
+  const authorized=signedIn && session.user?.id===ADMIN_USER_ID;
+  loginForm.style.display=authorized?'none':'block';
+  signedInPanel.style.display=authorized?'block':'none';
+  if(signedIn && !authorized){
+    loginMessage.textContent='ഈ അക്കൗണ്ടിന് Admin പ്രവേശനാനുമതിയില്ല.';
+    window.ssfSupabase.auth.signOut().catch(()=>{});
+    return;
+  }
+  if(authorized){
+    document.getElementById('signedInMessage').textContent='Admin session active.';
+    loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);loadGallery(true);loadUsefulLinks(true);loadNews(true);loadContact(true);loadDonation(true);
+  }
 }
 document.getElementById('adminBtn').onclick=()=>showAdminPanel();
 loginForm.addEventListener('submit',async(e)=>{
