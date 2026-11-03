@@ -137,7 +137,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
   );
 </script>
 <script>
-let lang='ml';function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-ml]').forEach(el=>el.textContent=el.dataset[l]);document.getElementById('ml').classList.toggle('light',l!=='ml');document.getElementById('en').classList.toggle('light',l!=='en')}
+let lang='ml';function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-ml]').forEach(el=>el.textContent=el.dataset[l]);document.getElementById('ml').classList.toggle('light',l!=='ml');document.getElementById('en').classList.toggle('light',l!=='en');if(typeof renderNews==='function')renderNews()}
 document.getElementById('ml').onclick=()=>setLang('ml');document.getElementById('en').onclick=()=>setLang('en');
 const adminPanel=document.getElementById('admin');
 const loginForm=document.getElementById('adminLoginForm');
