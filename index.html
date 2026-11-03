@@ -36,7 +36,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <section><h2 data-ml="ഫോട്ടോ ഗാലറി" data-en="Photo Gallery">ഫോട്ടോ ഗാലറി</h2><div class="grid" id="galleryPublicGrid"><p class="muted" data-ml="പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും." data-en="Activity photos will be added soon.">പ്രവർത്തനങ്ങളുടെ ചിത്രങ്ങൾ ഉടൻ ചേർക്കും.</p></div></section>
 <section><h2 data-ml="ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും" data-en="Forms & Useful Links">ഫോമുകളും ഉപയോഗപ്രദമായ ലിങ്കുകളും</h2><div class="grid" id="usefulLinksPublicGrid"><p class="muted" data-ml="ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും." data-en="Official forms and useful links will be added when available.">ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.</p></div></section>
 <section><h2 data-ml="സംഭാവന" data-en="Donation">സംഭാവന</h2><p class="muted" data-ml="സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും." data-en="Donation options will be enabled after a secure payment setup is configured.">സംഭാവനാ സൗകര്യം സുരക്ഷിതമായ പേയ്മെന്റ് സംവിധാനം സജ്ജീകരിച്ച ശേഷം ലഭ്യമാക്കും.</p></section>
-<section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും." data-en="Official contact details will be added after confirmation.">ബന്ധപ്പെടാനുള്ള ഔദ്യോഗിക വിവരങ്ങൾ സ്ഥിരീകരിച്ച ശേഷം ചേർക്കും.</p></section>
+<section><h2 data-ml="ബന്ധപ്പെടുക" data-en="Contact Us">ബന്ധപ്പെടുക</h2><div id="contactPublicDetails"><p class="muted" data-ml="ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ ഉടൻ ചേർക്കും." data-en="Contact details will be added soon.">ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ ഉടൻ ചേർക്കും.</p></div></section>
 <section id="admin" style="display:none"><h2>Admin Login</h2><form id="adminLoginForm"><label for="adminEmail">Email address</label><input id="adminEmail" type="email" value="omystorageis@gmail.com" required autocomplete="username"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"><button type="submit" id="loginSubmit">Login</button><p id="loginMessage" class="muted" role="status"></p></form><div id="adminSignedIn" style="display:none"><p id="signedInMessage">Admin login successful.</p><p class="muted">ഹോംപേജിലെ ബാനർ വിവരങ്ങൾ ഇവിടെ മാറ്റാം.</p><form id="bannerEditor"><label for="bannerTitleMl">ബാനർ തലക്കെട്ട് (മലയാളം)</label><input id="bannerTitleMl" required><label for="bannerTitleEn">Banner title (English)</label><input id="bannerTitleEn" required><label for="bannerDescMl">ബാനർ വിവരണം (മലയാളം)</label><textarea id="bannerDescMl" rows="3"></textarea><label for="bannerDescEn">Banner description (English)</label><textarea id="bannerDescEn" rows="3"></textarea><button type="submit" id="saveBanner">Save banner</button><p id="bannerMessage" class="muted" role="status"></p></form>
 <hr>
 <h3>ഞങ്ങളെക്കുറിച്ച് (About Us)</h3>
@@ -127,6 +127,18 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <p id="newsMessage" class="muted" role="status"></p>
 </form>
 <div id="newsAdminList"></div>
+<hr>
+<h3>ബന്ധപ്പെടുക (Contact Us)</h3>
+<form id="contactEditor">
+<label for="contactAddressMl">വിലാസം (മലയാളം)</label><textarea id="contactAddressMl" rows="2"></textarea>
+<label for="contactAddressEn">Address (English)</label><textarea id="contactAddressEn" rows="2"></textarea>
+<label for="contactPhone">ഫോൺ നമ്പർ (Phone)</label><input id="contactPhone" type="tel" placeholder="+91 ...">
+<label for="contactEmail">ഇമെയിൽ (Email)</label><input id="contactEmail" type="email" placeholder="name@example.com">
+<label for="contactMapUrl">Google Maps ലിങ്ക് (Map URL)</label><input id="contactMapUrl" type="url" placeholder="https://maps.google.com/...">
+<label><input id="contactVisible" type="checkbox" checked style="width:auto;margin-right:8px">വെബ്സൈറ്റിൽ കാണിക്കുക</label><br>
+<button type="submit" id="saveContact">Save contact details</button>
+<p id="contactMessage" class="muted" role="status"></p>
+</form>
 <button type="button" id="adminLogout" class="light">Logout</button></div></section>
 </main><footer><strong>SSF CHERUMUTTAM UNIT</strong><br><span data-ml="അറിവ് • ആത്മീയത • സേവനം" data-en="Knowledge • Spirituality • Service">അറിവ് • ആത്മീയത • സേവനം</span></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -137,7 +149,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
   );
 </script>
 <script>
-let lang='ml';function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-ml]').forEach(el=>el.textContent=el.dataset[l]);document.getElementById('ml').classList.toggle('light',l!=='ml');document.getElementById('en').classList.toggle('light',l!=='en');if(typeof renderNews==='function')renderNews()}
+let lang='ml';function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-ml]').forEach(el=>el.textContent=el.dataset[l]);document.getElementById('ml').classList.toggle('light',l!=='ml');document.getElementById('en').classList.toggle('light',l!=='en');if(typeof renderNews==='function')renderNews();if(typeof renderContact==='function')renderContact()}
 document.getElementById('ml').onclick=()=>setLang('ml');document.getElementById('en').onclick=()=>setLang('en');
 const adminPanel=document.getElementById('admin');
 const loginForm=document.getElementById('adminLoginForm');
@@ -288,7 +300,7 @@ document.getElementById('bannerEditor').addEventListener('submit',async(e)=>{
 });
 function updateAdminState(session){
   const signedIn=!!session; loginForm.style.display=signedIn?'none':'block'; signedInPanel.style.display=signedIn?'block':'none';
-  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);loadGallery(true);loadUsefulLinks(true);loadNews(true);}
+  if(signedIn){document.getElementById('signedInMessage').textContent='Signed in as '+(session.user.email||'Admin');loadBannerSettings();loadAbout();loadActivities();loadEvents();loadCommittee(true);loadGallery(true);loadUsefulLinks(true);loadNews(true);loadContact(true);}
 }
 document.getElementById('adminBtn').onclick=()=>showAdminPanel();
 loginForm.addEventListener('submit',async(e)=>{
@@ -451,6 +463,45 @@ document.getElementById('newsEditor').addEventListener('submit',async(e)=>{
 });
 document.getElementById('cancelNewsEdit').onclick=resetNewsForm;
 loadNews(false);
+
+
+let contactRow=null;let contactAdminMode=false;
+function renderContact(){
+ const pub=document.getElementById('contactPublicDetails');if(!pub)return;pub.replaceChildren();
+ if(!contactRow||contactRow.is_visible===false){
+  const p=document.createElement('p');p.className='muted';p.textContent=lang==='ml'?'ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ ഉടൻ ചേർക്കും.':'Contact details will be added soon.';pub.appendChild(p);return;
+ }
+ const address=lang==='ml'?(contactRow.address_ml||contactRow.address_en):(contactRow.address_en||contactRow.address_ml);
+ if(address){const p=document.createElement('p');p.style.whiteSpace='pre-wrap';p.textContent=address;pub.appendChild(p);}
+ if(contactRow.phone){const p=document.createElement('p');const a=document.createElement('a');a.href='tel:'+contactRow.phone;a.textContent=contactRow.phone;p.append('Phone: ',a);pub.appendChild(p);}
+ if(contactRow.email){const p=document.createElement('p');const a=document.createElement('a');a.href='mailto:'+contactRow.email;a.textContent=contactRow.email;p.append('Email: ',a);pub.appendChild(p);}
+ if(contactRow.map_url){const p=document.createElement('p');const a=document.createElement('a');a.href=contactRow.map_url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=lang==='ml'?'മാപ്പിൽ കാണുക':'View map';pub.appendChild(p);p.appendChild(a);}
+}
+async function loadContact(adminMode=false){
+ contactAdminMode=adminMode;const msg=document.getElementById('contactMessage');
+ let q=window.ssfSupabase.from('contact_details').select('id,address_ml,address_en,phone,email,map_url,is_visible,updated_at').order('updated_at',{ascending:false}).limit(1);
+ if(!adminMode)q=q.eq('is_visible',true);
+ const {data,error}=await q;
+ if(error){if(adminMode&&msg)msg.textContent='Contact വിവരങ്ങൾ ലഭിച്ചില്ല. Table, policies പരിശോധിക്കുക.';return;}
+ contactRow=(data&&data.length)?data[0]:null;
+ if(adminMode&&contactRow){
+  document.getElementById('contactAddressMl').value=contactRow.address_ml||'';
+  document.getElementById('contactAddressEn').value=contactRow.address_en||'';
+  document.getElementById('contactPhone').value=contactRow.phone||'';
+  document.getElementById('contactEmail').value=contactRow.email||'';
+  document.getElementById('contactMapUrl').value=contactRow.map_url||'';
+  document.getElementById('contactVisible').checked=contactRow.is_visible!==false;
+ }
+ renderContact();if(adminMode&&msg)msg.textContent='Contact വിവരങ്ങൾ തയ്യാറാണ്.';
+}
+document.getElementById('contactEditor').addEventListener('submit',async(e)=>{
+ e.preventDefault();const msg=document.getElementById('contactMessage'),btn=document.getElementById('saveContact');btn.disabled=true;msg.textContent='സംരക്ഷിക്കുന്നു...';
+ const payload={address_ml:document.getElementById('contactAddressMl').value.trim(),address_en:document.getElementById('contactAddressEn').value.trim(),phone:document.getElementById('contactPhone').value.trim(),email:document.getElementById('contactEmail').value.trim(),map_url:document.getElementById('contactMapUrl').value.trim(),is_visible:document.getElementById('contactVisible').checked,updated_at:new Date().toISOString()};
+ const result=contactRow?.id?await window.ssfSupabase.from('contact_details').update(payload).eq('id',contactRow.id):await window.ssfSupabase.from('contact_details').insert(payload);
+ btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വിവരങ്ങൾ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';return;}
+ await loadContact(true);msg.textContent='Contact വിവരങ്ങൾ സംരക്ഷിച്ചു.';
+});
+loadContact(false);
 
 window.ssfSupabase.auth.getSession().then(({data})=>updateAdminState(data.session));
 window.ssfSupabase.auth.onAuthStateChange((_event,session)=>updateAdminState(session));
