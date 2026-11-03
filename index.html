@@ -291,20 +291,30 @@ document.getElementById('aboutEditor').addEventListener('submit',async(e)=>{
 });
 
 const textAlignmentTargets={
- bannerDescMl:'.hero p',bannerDescEn:'.hero p',aboutBodyMl:'main > section:first-of-type p',aboutBodyEn:'main > section:first-of-type p',
+ bannerTitleMl:'.hero h1',bannerTitleEn:'.hero h1',bannerDescMl:'.hero p',bannerDescEn:'.hero p',
+ menuLabelMl:'nav a',menuLabelEn:'nav a',
+ activityTitleMl:'#activitiesGrid .tile h3',activityTitleEn:'#activitiesGrid .tile h3',
  activityDescMl:'#activitiesGrid .tile span',activityDescEn:'#activitiesGrid .tile span',
+ eventTitleMl:'#eventsPublicList .tile h3',eventTitleEn:'#eventsPublicList .tile h3',
  eventDescMl:'#eventsPublicList .tile p:last-child',eventDescEn:'#eventsPublicList .tile p:last-child',
+ committeeName:'#committeePublicGrid .tile h3',committeeRoleMl:'#committeePublicGrid .tile p',committeeRoleEn:'#committeePublicGrid .tile p',
+ usefulTitleMl:'#usefulLinksPublicGrid .tile a',usefulTitleEn:'#usefulLinksPublicGrid .tile a',
+ newsTitleMl:'#newsPublicList article h3',newsTitleEn:'#newsPublicList article h3',
  newsBodyMl:'#newsPublicList article p',newsBodyEn:'#newsPublicList article p',
+ aboutBodyMl:'main > section:first-of-type p',aboutBodyEn:'main > section:first-of-type p',
  contactAddressMl:'#contactPublicDetails p:first-child',contactAddressEn:'#contactPublicDetails p:first-child',
  donationInstructionsMl:'#donationPublicDetails p:last-child',donationInstructionsEn:'#donationPublicDetails p:last-child'
 };
 function applySavedTextAlignments(){const saved=themeConfig.textAlignments||{};Object.entries(textAlignmentTargets).forEach(([id,selector])=>{document.querySelectorAll(selector).forEach(el=>{el.style.textAlign=saved[id]||'left';});});}
 function setupTextAlignmentTools(){
- document.querySelectorAll('#admin textarea').forEach(area=>{
+ const fieldIds=['bannerTitleMl','bannerTitleEn','menuLabelMl','menuLabelEn','activityTitleMl','activityTitleEn','eventTitleMl','eventTitleEn','committeeName','committeeRoleMl','committeeRoleEn','usefulTitleMl','usefulTitleEn','newsTitleMl','newsTitleEn'];
+ document.querySelectorAll('#admin textarea, #admin input').forEach(area=>{
+  if(area.type==='file'||area.type==='checkbox'||area.type==='radio'||area.type==='color'||area.type==='date'||area.type==='datetime-local'||area.type==='number'||area.type==='url'||area.type==='email'||area.type==='password'||area.type==='tel')return;
+  if(!area.matches('textarea')&&!fieldIds.includes(area.id))return;
   if(area.dataset.alignmentReady)return;area.dataset.alignmentReady='1';
   const wrap=document.createElement('div');wrap.className='align-tools';wrap.setAttribute('role','group');wrap.setAttribute('aria-label','Text alignment');
   const label=document.createElement('span');label.textContent='Text alignment:';wrap.appendChild(label);
-  ['left','center','right','justify'].forEach(value=>{const b=document.createElement('button');b.type='button';b.className='light';b.textContent={left:'Left',center:'Center',right:'Right',justify:'Justify'}[value];b.setAttribute('aria-pressed',(themeConfig.textAlignments?.[area.id]||'left')===value?'true':'false');b.addEventListener('click',async()=>{themeConfig.textAlignments={...(themeConfig.textAlignments||{}),[area.id]:value};wrap.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));area.style.textAlign=value;const msg=document.getElementById(area.id.startsWith('banner')?'bannerMessage':area.id.startsWith('about')?'aboutMessage':area.id.startsWith('activity')?'activityMessage':area.id.startsWith('event')?'eventMessage':area.id.startsWith('news')?'newsMessage':area.id.startsWith('contact')?'contactMessage':'donationMessage');if(msg)msg.textContent='Alignment സംരക്ഷിക്കുന്നു...';const result=await persistSiteSettings({menu_items:menuItems,theme_config:themeConfig});if(msg)msg.textContent=result.error?'Alignment സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.':'Text alignment സംരക്ഷിച്ചു.';applySavedTextAlignments();});wrap.appendChild(b);});
+  ['left','center','right','justify'].forEach(value=>{const b=document.createElement('button');b.type='button';b.className='light';b.textContent={left:'Left',center:'Center',right:'Right',justify:'Justify'}[value];b.setAttribute('aria-pressed',(themeConfig.textAlignments?.[area.id]||'left')===value?'true':'false');b.addEventListener('click',async()=>{themeConfig.textAlignments={...(themeConfig.textAlignments||{}),[area.id]:value};wrap.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));area.style.textAlign=value;const msg=document.getElementById(area.id.startsWith('banner')?'bannerMessage':area.id.startsWith('activity')?'activityMessage':area.id.startsWith('event')?'eventMessage':area.id.startsWith('news')?'newsMessage':area.id.startsWith('committee')?'committeeMessage':area.id.startsWith('useful')?'usefulLinkMessage':area.id.startsWith('menu')?'menuMessage':area.id.startsWith('about')?'aboutMessage':area.id.startsWith('contact')?'contactMessage':'donationMessage');if(msg)msg.textContent='Alignment സംരക്ഷിക്കുന്നു...';const result=await persistSiteSettings({menu_items:menuItems,theme_config:themeConfig});if(msg)msg.textContent=result.error?'Alignment സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.':'Text alignment സംരക്ഷിച്ചു.';applySavedTextAlignments();});wrap.appendChild(b);});
   area.insertAdjacentElement('beforebegin',wrap);
  });
 }
