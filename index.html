@@ -11,7 +11,7 @@
 header{background:var(--white);position:sticky;top:0;z-index:5;box-shadow:0 2px 15px #073c2412}
 .nav{max-width:1100px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .brand{font-family:'Cooper Black',Georgia,serif;font-size:25px;color:var(--green);font-weight:900;line-height:1.2}.brand small{display:block;font:600 13px 'Noto Sans Malayalam',sans-serif;color:#527262}
-.actions{display:flex;gap:8px;align-items:center}.menu-toggle{display:inline-block}.site-menu{max-width:1100px;margin:0 auto;padding:8px 20px 14px;display:flex;flex-wrap:wrap;gap:8px}.site-menu[hidden]{display:none}.site-menu a{display:inline-block;padding:7px 12px;border-radius:8px;background:var(--mint);color:var(--deep);text-decoration:none;font-weight:600}.site-menu a:hover{background:var(--green);color:white}button,a.btn{border:0;border-radius:9px;padding:9px 14px;background:var(--green);color:white;font:600 14px inherit;text-decoration:none;cursor:pointer}.light{background:var(--mint);color:var(--deep)}
+.actions{display:flex;gap:8px;align-items:center}.menu-toggle{display:inline-block}.site-menu{flex:0 0 100%;width:100%;max-width:1100px;margin:0 auto;padding:8px 20px 14px;display:flex;flex-wrap:wrap;gap:8px}.site-menu[hidden]{display:none}.site-menu a{display:inline-block;padding:7px 12px;border-radius:8px;background:var(--mint);color:var(--deep);text-decoration:none;font-weight:600}.site-menu a:hover{background:var(--green);color:white}button,a.btn{border:0;border-radius:9px;padding:9px 14px;background:var(--green);color:white;font:600 14px inherit;text-decoration:none;cursor:pointer}.light{background:var(--mint);color:var(--deep)}
 main{max-width:1100px;margin:auto;padding:24px 20px}
 .hero{background:linear-gradient(120deg,#064b2d,#0b8a50);color:white;padding:clamp(35px,7vw,78px) clamp(22px,6vw,65px);border-radius:22px;overflow:hidden;position:relative}
 .hero:after{content:'SSF';position:absolute;right:3%;bottom:-55px;font:900 clamp(100px,20vw,230px) 'Cooper Black',Georgia,serif;color:#ffffff12;pointer-events:none}
@@ -302,7 +302,7 @@ async function loadBannerSettings(){
   const {data,error}=await window.ssfSupabase.from('site_settings').select('*').order('id',{ascending:true}).limit(1).maybeSingle();
   if(error){msg.textContent='വിവരങ്ങൾ ലഭിച്ചില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
   settingsRowId=data?.id ?? null;
-  menuItems=Array.isArray(data?.menu_items)?data.menu_items:defaultMenuItems();themeConfig={...themeConfig,...(data?.theme_config||{})};applyTheme();
+  menuItems=Array.isArray(data?.menu_items)&&data.menu_items.length?data.menu_items:defaultMenuItems();themeConfig={...themeConfig,...(data?.theme_config||{})};applyTheme();
   document.getElementById('themeGreen').value=themeConfig.green;document.getElementById('themeDeep').value=themeConfig.deep;document.getElementById('themeMint').value=themeConfig.mint;document.getElementById('themePage').value=themeConfig.background;renderSiteMenu();renderMenuAdmin();
   document.getElementById('bannerTitleMl').value=data?.banner_title_ml || 'SSF ചെറുമുറ്റം യൂണിറ്റ്';
   document.getElementById('bannerTitleEn').value=data?.banner_title_en || 'SSF CHERUMUTTAM UNIT';
