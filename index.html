@@ -374,7 +374,29 @@ function setupTextAlignmentTools(){
 }
 
 let settingsRowId=null;let menuItems=[];let themeConfig={green:'#087443',deep:'#064b2d',mint:'#eaf7ef',background:'#f7fbf8',surface:'#ffffff',line:'#e5efe8',bannerColor:'#087443',bannerImage:'',mottoMl:'ധാർമ്മിക വിപ്ലവം',mottoEn:'MORAL REVOLUTION'};
-function applyTheme(t=themeConfig){const r=document.documentElement;r.style.setProperty('--green',t.green||'#087443');r.style.setProperty('--deep',t.deep||'#064b2d');r.style.setProperty('--mint',t.mint||'#eaf7ef');r.style.setProperty('--page',t.background||'#f7fbf8');r.style.setProperty('--surface',t.surface||'#ffffff');r.style.setProperty('--line',t.line||'#e5efe8');r.style.setProperty('--committee-image-bg',t.mint||'#eaf7ef');r.style.setProperty('--heading-color',t.headingColor||t.green||'#087443');const hero=document.querySelector('.hero');if(hero){hero.style.background=t.bannerImage?'linear-gradient(#0005,#0005),url("'+t.bannerImage.replace(/"/g,'%22')+'") center/cover no-repeat':'linear-gradient(120deg,'+(t.bannerColor||'#064b2d')+','+(t.deep||'#0b8a50')+')';}document.querySelector('meta[name="theme-color"]').content=t.green||'#087443';}
+function applyTheme(t=themeConfig){const r=document.documentElement;r.style.setProperty('--green',t.green||'#087443');r.style.setProperty('--deep',t.deep||'#064b2d');r.style.setProperty('--mint',t.mint||'#eaf7ef');r.style.setProperty('--page',t.background||'#f7fbf8');r.style.setProperty('--surface',t.surface||'#ffffff');r.style.setProperty('--line',t.line||'#e5efe8');r.style.setProperty('--committee-image-bg',t.mint||'#eaf7ef');r.style.setProperty('--heading-color',t.headingColor||t.green||'#087443');const hero=document.querySelector('.hero');if(hero){hero.style.background=t.bannerImage?'linear-gradient(#0005,#0005),url("'+t.bannerImage.replace(/"/g,'%22')+'") center/cover no-repeat':'linear-gradient(120deg,'+(t.bannerColor||'#064b2d')+','+(t.deep||'#0b8a50')+')';}document.querySelector('meta[name="theme-color"]').content=t.green||'#087443';recolorCommitteePhotos();}
+function recolorCommitteePhotos(){
+ const target=(themeConfig&&themeConfig.mint)||'#eaf7ef';
+ document.querySelectorAll('#committeePublicGrid img.committee-photo-source').forEach(img=>{
+  if(!img.complete||!img.naturalWidth)return;
+  let canvas=img.nextElementSibling;
+  if(!canvas||!canvas.classList.contains('committee-photo-themed')){canvas=document.createElement('canvas');canvas.className='committee-photo-themed';canvas.setAttribute('role','img');canvas.setAttribute('aria-label',img.alt||'Committee member');canvas.style.cssText=img.style.cssText;img.insertAdjacentElement('afterend',canvas);}
+  try{
+   const ctx=canvas.getContext('2d',{willReadFrequently:true});canvas.width=img.naturalWidth;canvas.height=img.naturalHeight;ctx.drawImage(img,0,0);
+   const frame=ctx.getImageData(0,0,canvas.width,canvas.height),d=frame.data;
+   const hex=target.replace('#','');const tr=parseInt(hex.slice(0,2),16),tg=parseInt(hex.slice(2,4),16),tb=parseInt(hex.slice(4,6),16);
+   for(let i=0;i<d.length;i+=4){
+    const rr=d[i],gg=d[i+1],bb=d[i+2];
+    if(gg>rr*1.22&&gg>bb*1.15&&gg-rr>35&&gg-bb>25){
+     const lum=(rr*0.2126+gg*0.7152+bb*0.0722)/150;
+     const shade=Math.max(0.72,Math.min(1.16,lum));
+     d[i]=Math.min(255,tr*shade);d[i+1]=Math.min(255,tg*shade);d[i+2]=Math.min(255,tb*shade);
+    }
+   }
+   ctx.putImageData(frame,0,0);img.style.display='none';canvas.style.display='block';
+  }catch(err){canvas.remove();img.style.display='block';}
+ });
+}
 function getSiteSections(){return [...document.querySelectorAll('main section:not(#admin)')];}
 function ensureSiteSectionIds(){getSiteSections().forEach((sec,i)=>{if(!sec.id)sec.id='site-section-'+(i+1);sec.style.scrollMarginTop='90px';});}
 function defaultMenuItems(){ensureSiteSectionIds();return getSiteSections().map(sec=>{const h=sec.querySelector('h2');return {ml:h?.dataset.ml||h?.textContent||'Section',en:h?.dataset.en||h?.textContent||'Section',url:'#'+sec.id,visible:true};});}
@@ -508,7 +530,7 @@ function renderCommittee(){
  const pub=document.getElementById('committeePublicGrid');pub.replaceChildren();
  const visible=committeeRows.filter(x=>x.is_visible!==false);
  if(!visible.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='കമ്മിറ്റി അംഗങ്ങളുടെ വിവരങ്ങൾ ഉടൻ ചേർക്കും.';p.dataset.en='Committee details will be added soon.';pub.appendChild(p);}
- pub.className="grid committee-grid";pub.classList.toggle("committee-last-row-three",visible.length%4===3);pub.classList.toggle("committee-last-row-two",visible.length%4===2);pub.classList.toggle("committee-last-row-one",visible.length%4===1);visible.forEach(item=>{const card=document.createElement('div');card.className='tile committee-card';if(item.photo_url){const img=document.createElement('img');img.src=item.photo_url;img.alt=item.name||'Committee member';img.loading='lazy';img.style.cssText='width:100%;max-height:220px;object-fit:cover;border-radius:10px;margin-bottom:10px';card.appendChild(img);}const n=document.createElement('h3');n.textContent=item.name||'';card.appendChild(n);const role=document.createElement('p');role.dataset.ml=item.role_ml||'';role.dataset.en=item.role_en||'';card.appendChild(role);pub.appendChild(card);});
+ pub.className="grid committee-grid";pub.classList.toggle("committee-last-row-three",visible.length%4===3);pub.classList.toggle("committee-last-row-two",visible.length%4===2);pub.classList.toggle("committee-last-row-one",visible.length%4===1);visible.forEach(item=>{const card=document.createElement('div');card.className='tile committee-card';if(item.photo_url){const img=document.createElement('img');img.className='committee-photo-source';img.crossOrigin='anonymous';img.alt=item.name||'Committee member';img.loading='lazy';img.style.cssText='width:100%;max-height:220px;object-fit:cover;border-radius:10px;margin-bottom:10px';img.addEventListener('load',recolorCommitteePhotos,{once:true});img.src=item.photo_url;card.appendChild(img);}const n=document.createElement('h3');n.textContent=item.name||'';card.appendChild(n);const role=document.createElement('p');role.dataset.ml=item.role_ml||'';role.dataset.en=item.role_en||'';card.appendChild(role);pub.appendChild(card);});
  setLang(lang);applySavedTextAlignments();
  const list=document.getElementById('committeeAdminList');list.replaceChildren();
  if(!committeeAdminMode)return;
