@@ -18,7 +18,7 @@ main{max-width:1100px;margin:auto;padding:24px 20px}
 .hero h1{font:700 clamp(34px,6vw,58px)/1.25 Arial,sans-serif;margin:0 0 12px;position:relative;z-index:1}.hero-title-ssf{font-family:'Cooper Black',Georgia,serif;font-weight:900}.hero-title-unit{font-family:'Montserrat',Arial,sans-serif;font-weight:700;letter-spacing:.5px}
 .hero p{max-width:680px;font-size:17px;margin:0;position:relative;z-index:1}
 section{background:white;border:1px solid #e5efe8;border-radius:16px;padding:25px;margin:22px 0;box-shadow:0 5px 22px #0b54300a}
-h2{color:var(--green);font-size:23px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.tile{background:var(--mint);padding:17px;border-radius:12px}.tile h3{margin:0 0 5px;color:var(--deep);font-size:17px}.muted{color:#61776a}
+h2{color:var(--green);font-size:23px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px} .content-card-image{display:block;width:100%;max-height:240px;object-fit:cover;border-radius:10px;margin-bottom:12px}.tile{background:var(--mint);padding:17px;border-radius:12px}.tile h3{margin:0 0 5px;color:var(--deep);font-size:17px}.muted{color:#61776a}
 footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margin-top:35px}
 #admin{display:none;background:#fffdf4;border:1px solid #e9dba8}#admin input,#admin textarea{width:100%;padding:10px;border:1px solid #cbd8ce;border-radius:8px;margin:5px 0 12px;font:inherit}#admin label{font-weight:600}
 @media(max-width:600px){.nav{padding:10px 14px}.actions{gap:5px;flex-wrap:wrap;justify-content:flex-end}.actions button{padding:8px 10px;font-size:12px}.site-menu{padding:72px 18px 24px}.site-menu a{padding:12px 14px}.brand{font-size:21px}main{padding:16px 13px}section{padding:19px}.hero{border-radius:15px}}
@@ -62,6 +62,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <label for="activityTitleEn">Title (English)</label><input id="activityTitleEn" required>
 <label for="activityDescMl">വിവരണം (മലയാളം)</label><textarea id="activityDescMl" rows="3"></textarea>
 <label for="activityDescEn">Description (English)</label><textarea id="activityDescEn" rows="3"></textarea>
+<label for="activityImageFile">ചിത്രം (ഐച്ഛികം) / Image (Optional)</label><input id="activityImageFile" type="file" accept="image/jpeg,image/png,image/webp"><p id="activityImageUploadMessage" class="muted" role="status"></p><input id="activityImageUrl" type="hidden">
 <button type="submit" id="saveActivity">Add activity</button>
 <button type="button" id="cancelActivityEdit" class="light" style="display:none">Cancel edit</button>
 <p id="activityMessage" class="muted" role="status"></p>
@@ -75,6 +76,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <label for="eventDescMl">വിവരണം (മലയാളം)</label><textarea id="eventDescMl" rows="3"></textarea>
 <label for="eventDescEn">Description (English)</label><textarea id="eventDescEn" rows="3"></textarea>
 <label for="eventDate">തീയതി (Date)</label><input id="eventDate" type="date" required>
+<label for="eventImageFile">ചിത്രം (ഐച്ഛികം) / Image (Optional)</label><input id="eventImageFile" type="file" accept="image/jpeg,image/png,image/webp"><p id="eventImageUploadMessage" class="muted" role="status"></p><input id="eventImageUrl" type="hidden">
 <button type="submit" id="saveEvent">Add event</button>
 <button type="button" id="cancelEventEdit" class="light" style="display:none">Cancel edit</button>
 <p id="eventMessage" class="muted" role="status"></p>
@@ -113,6 +115,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <label for="usefulTitleMl">പേര് (മലയാളം)</label><input id="usefulTitleMl" required>
 <label for="usefulTitleEn">Title (English)</label><input id="usefulTitleEn" required>
 <label for="usefulUrl">ലിങ്ക് (URL)</label><input id="usefulUrl" type="url" required placeholder="https://...">
+<label for="usefulImageFile">ചിത്രം (ഐച്ഛികം) / Image (Optional)</label><input id="usefulImageFile" type="file" accept="image/jpeg,image/png,image/webp"><p id="usefulImageUploadMessage" class="muted" role="status"></p><input id="usefulImageUrl" type="hidden">
 <label for="usefulSortOrder">ക്രമം (Sort order)</label><input id="usefulSortOrder" type="number" value="0">
 <label><input id="usefulVisible" type="checkbox" checked style="width:auto;margin-right:8px">വെബ്സൈറ്റിൽ കാണിക്കുക</label><br>
 <button type="submit" id="saveUsefulLink">Add link</button>
@@ -127,6 +130,7 @@ footer{text-align:center;background:var(--deep);color:#eaf7ef;padding:25px;margi
 <label for="newsTitleEn">Title (English)</label><input id="newsTitleEn" required>
 <label for="newsBodyMl">വിവരം (മലയാളം)</label><textarea id="newsBodyMl" rows="3"></textarea>
 <label for="newsBodyEn">Details (English)</label><textarea id="newsBodyEn" rows="3"></textarea>
+<label for="newsImageFile">ചിത്രം (ഐച്ഛികം) / Image (Optional)</label><input id="newsImageFile" type="file" accept="image/jpeg,image/png,image/webp"><p id="newsImageUploadMessage" class="muted" role="status"></p><input id="newsImageUrl" type="hidden">
 <label for="newsPublishedAt">പ്രസിദ്ധീകരണ തീയതി / സമയം</label><input id="newsPublishedAt" type="datetime-local">
 <label><input id="newsVisible" type="checkbox" checked style="width:auto;margin-right:8px">വെബ്സൈറ്റിൽ കാണിക്കുക</label><br>
 <button type="submit" id="saveNews">Add news</button>
@@ -185,7 +189,7 @@ function renderEvents(){
   if(!eventRows.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='പുതിയ പരിപാടികളുടെ വിവരങ്ങൾ ഉടൻ ഇവിടെ പ്രസിദ്ധീകരിക്കും.';p.dataset.en='Updates about upcoming programmes will be published here.';pub.appendChild(p);}
   eventRows.forEach(item=>{
     const card=document.createElement('div');card.className='tile';card.style.margin='10px 0';
-    const h=document.createElement('h3');h.dataset.ml=item.title_ml||'';h.dataset.en=item.title_en||'';card.appendChild(h);
+    const imageUrl=getContentImage('events',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'Event';img.loading='lazy';img.className='content-card-image';card.appendChild(img);}const h=document.createElement('h3');h.dataset.ml=item.title_ml||'';h.dataset.en=item.title_en||'';card.appendChild(h);
     const date=document.createElement('p');date.className='muted';date.textContent=item.event_date||'';card.appendChild(date);
     const desc=document.createElement('p');desc.dataset.ml=item.description_ml||'';desc.dataset.en=item.description_en||'';card.appendChild(desc);pub.appendChild(card);
   });
@@ -194,7 +198,7 @@ function renderEvents(){
   eventRows.forEach(item=>{
     const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';
     const name=document.createElement('strong');name.textContent=(item.title_ml||item.title_en||'Event')+' — '+item.event_date;row.appendChild(name);
-    const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingEventId=item.id;document.getElementById('eventTitleMl').value=item.title_ml||'';document.getElementById('eventTitleEn').value=item.title_en||'';document.getElementById('eventDescMl').value=item.description_ml||'';document.getElementById('eventDescEn').value=item.description_en||'';document.getElementById('eventDate').value=item.event_date||'';document.getElementById('saveEvent').textContent='Update event';document.getElementById('cancelEventEdit').style.display='inline-block';};
+    const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingEventId=item.id;document.getElementById('eventTitleMl').value=item.title_ml||'';document.getElementById('eventTitleEn').value=item.title_en||'';document.getElementById('eventDescMl').value=item.description_ml||'';document.getElementById('eventDescEn').value=item.description_en||'';document.getElementById('eventDate').value=item.event_date||'';setContentImageField('eventImageUrl',getContentImage('events',item.id));document.getElementById('saveEvent').textContent='Update event';document.getElementById('cancelEventEdit').style.display='inline-block';};
     const del=document.createElement('button');del.type='button';del.className='light';del.textContent='Delete';del.onclick=async()=>{if(!confirm('ഈ പരിപാടി നീക്കട്ടെയോ?'))return;const {error}=await window.ssfSupabase.from('events').delete().eq('id',item.id);if(error){document.getElementById('eventMessage').textContent='നീക്കാൻ കഴിഞ്ഞില്ല.';return;}await loadEvents();};
     row.append(edit,del);list.appendChild(row);
   });
@@ -208,8 +212,8 @@ async function loadEvents(){
 document.getElementById('eventEditor').addEventListener('submit',async(e)=>{
   e.preventDefault();const msg=document.getElementById('eventMessage'),btn=document.getElementById('saveEvent');btn.disabled=true;msg.textContent='സംരക്ഷിക്കുന്നു...';
   const payload={title_ml:document.getElementById('eventTitleMl').value.trim(),title_en:document.getElementById('eventTitleEn').value.trim(),description_ml:document.getElementById('eventDescMl').value.trim(),description_en:document.getElementById('eventDescEn').value.trim(),event_date:document.getElementById('eventDate').value};
-  const result=editingEventId?await window.ssfSupabase.from('events').update(payload).eq('id',editingEventId):await window.ssfSupabase.from('events').insert(payload);
-  btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
+  let result,savedId=editingEventId;if(editingEventId){result=await window.ssfSupabase.from('events').update(payload).eq('id',editingEventId);}else{result=await window.ssfSupabase.from('events').insert(payload).select('id').single();savedId=result.data?.id;}
+  btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}if(document.getElementById('eventImageUrl').value&&savedId){const ok=await saveContentImage('events',savedId,document.getElementById('eventImageUrl').value);if(!ok){msg.textContent='വിവരം സംരക്ഷിച്ചു; ചിത്രം ലിങ്ക് save ചെയ്യാൻ കഴിഞ്ഞില്ല.';return;}}
   resetEventForm();await loadEvents();msg.textContent='പരിപാടി സംരക്ഷിച്ചു.';
 });
 document.getElementById('cancelEventEdit').onclick=resetEventForm;
@@ -227,7 +231,7 @@ function renderActivities(){
     grid.replaceChildren();
     activityRows.forEach(item=>{
       const card=document.createElement('div'); card.className='tile';
-      const h=document.createElement('h3'); h.dataset.ml=item.title_ml||''; h.dataset.en=item.title_en||''; card.appendChild(h);
+      const imageUrl=getContentImage('activities',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'Activity';img.loading='lazy';img.className='content-card-image';card.appendChild(img);}const h=document.createElement('h3'); h.dataset.ml=item.title_ml||''; h.dataset.en=item.title_en||''; card.appendChild(h);
       const p=document.createElement('span'); p.dataset.ml=item.description_ml||''; p.dataset.en=item.description_en||''; card.appendChild(p);
       grid.appendChild(card);
     });
@@ -237,7 +241,7 @@ function renderActivities(){
   activityRows.forEach(item=>{
     const row=document.createElement('div'); row.className='tile'; row.style.margin='8px 0';
     const name=document.createElement('strong'); name.textContent=item.title_ml||item.title_en||'Activity'; row.appendChild(name);
-    const edit=document.createElement('button'); edit.type='button'; edit.className='light'; edit.textContent='Edit'; edit.style.margin='8px'; edit.onclick=()=>{editingActivityId=item.id;document.getElementById('activityTitleMl').value=item.title_ml||'';document.getElementById('activityTitleEn').value=item.title_en||'';document.getElementById('activityDescMl').value=item.description_ml||'';document.getElementById('activityDescEn').value=item.description_en||'';document.getElementById('saveActivity').textContent='Update activity';document.getElementById('cancelActivityEdit').style.display='inline-block';};
+    const edit=document.createElement('button'); edit.type='button'; edit.className='light'; edit.textContent='Edit'; edit.style.margin='8px'; edit.onclick=()=>{editingActivityId=item.id;document.getElementById('activityTitleMl').value=item.title_ml||'';document.getElementById('activityTitleEn').value=item.title_en||'';document.getElementById('activityDescMl').value=item.description_ml||'';document.getElementById('activityDescEn').value=item.description_en||'';setContentImageField('activityImageUrl',getContentImage('activities',item.id));document.getElementById('saveActivity').textContent='Update activity';document.getElementById('cancelActivityEdit').style.display='inline-block';};
     const del=document.createElement('button'); del.type='button'; del.className='light'; del.textContent='Delete'; del.onclick=async()=>{if(!confirm('ഈ പ്രവർത്തനം നീക്കട്ടെയോ?'))return;const {error}=await window.ssfSupabase.from('activities').delete().eq('id',item.id);if(error){document.getElementById('activityMessage').textContent='നീക്കാൻ കഴിഞ്ഞില്ല.';return;}await loadActivities();};
     row.append(edit,del); list.appendChild(row);
   });
@@ -252,9 +256,9 @@ document.getElementById('activityEditor').addEventListener('submit',async(e)=>{
   e.preventDefault(); const msg=document.getElementById('activityMessage'), btn=document.getElementById('saveActivity');
   btn.disabled=true; msg.textContent='സംരക്ഷിക്കുന്നു...';
   const payload={title_ml:document.getElementById('activityTitleMl').value.trim(),title_en:document.getElementById('activityTitleEn').value.trim(),description_ml:document.getElementById('activityDescMl').value.trim(),description_en:document.getElementById('activityDescEn').value.trim()};
-  const result=editingActivityId?await window.ssfSupabase.from('activities').update(payload).eq('id',editingActivityId):await window.ssfSupabase.from('activities').insert(payload);
+  let result,savedId=editingActivityId;if(editingActivityId){result=await window.ssfSupabase.from('activities').update(payload).eq('id',editingActivityId);}else{result=await window.ssfSupabase.from('activities').insert(payload).select('id').single();savedId=result.data?.id;}
   btn.disabled=false;
-  if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}
+  if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';return;}if(document.getElementById('activityImageUrl').value&&savedId){const ok=await saveContentImage('activities',savedId,document.getElementById('activityImageUrl').value);if(!ok){msg.textContent='വിവരം സംരക്ഷിച്ചു; ചിത്രം ലിങ്ക് save ചെയ്യാൻ കഴിഞ്ഞില്ല.';return;}}
   resetActivityForm(); await loadActivities(); msg.textContent='പ്രവർത്തനം സംരക്ഷിച്ചു.';
 });
 document.getElementById('cancelActivityEdit').onclick=resetActivityForm;
@@ -407,9 +411,13 @@ function cropImageBeforeUpload(file,folder){
   const modal=document.getElementById('imageCropModal'),img=document.getElementById('cropSourceImage'),status=document.getElementById('cropStatus');
   activeCropResolve=resolve;status.textContent='';
   img.src=URL.createObjectURL(file);modal.classList.add('open');
-  img.onload=()=>{if(activeCropper)activeCropper.destroy();const ratio=folder==='banner'?16/5:(folder==='gallery'?4/3:1);activeCropper=new Cropper(img,{viewMode:1,autoCropArea:.88,aspectRatio:ratio,background:false,responsive:true,restore:false});};
+  img.onload=()=>{if(activeCropper)activeCropper.destroy();const ratio=(folder==='banner'?16/5:(['gallery','activities','events','useful-links','news'].includes(folder)?4/3:1));activeCropper=new Cropper(img,{viewMode:1,autoCropArea:.88,aspectRatio:ratio,background:false,responsive:true,restore:false});};
  });
 }
+function getContentImage(collection,id){return (themeConfig.contentImages||{})[collection+':'+id]||'';}
+async function saveContentImage(collection,id,url){if(!url)return true;themeConfig.contentImages={...(themeConfig.contentImages||{}),[collection+':'+id]:url};const result=await persistSiteSettings({menu_items:menuItems,theme_config:themeConfig});return !result.error;}
+function setContentImageField(fieldId,url){const field=document.getElementById(fieldId);if(!field)return;field.value=url||'';let preview=document.getElementById(fieldId+'Preview');if(url){if(!preview){preview=document.createElement('img');preview.id=fieldId+'Preview';preview.className='crop-preview';field.insertAdjacentElement('afterend',preview);}preview.src=url;preview.alt='Current image preview';preview.style.display='block';}else if(preview){preview.remove();}}
+[['activityImageFile','activities','activityImageUploadMessage','activityImageUrl'],['eventImageFile','events','eventImageUploadMessage','eventImageUrl'],['usefulImageFile','useful-links','usefulImageUploadMessage','usefulImageUrl'],['newsImageFile','news','newsImageUploadMessage','newsImageUrl']].forEach(([fileId,folder,msg,urlId])=>{document.getElementById(fileId).addEventListener('change',e=>uploadSiteImage(e.target.files[0],folder,msg,urlId));});
 function closeCropDialog(blob){const modal=document.getElementById('imageCropModal');modal.classList.remove('open');if(activeCropper){activeCropper.destroy();activeCropper=null;}const img=document.getElementById('cropSourceImage');if(img.src.startsWith('blob:'))URL.revokeObjectURL(img.src);if(activeCropResolve){activeCropResolve(blob);activeCropResolve=null;}}
 document.getElementById('cropCancel').addEventListener('click',()=>closeCropDialog(null));
 document.getElementById('cropConfirm').addEventListener('click',()=>{if(!activeCropper)return;const btn=document.getElementById('cropConfirm');btn.disabled=true;activeCropper.getCroppedCanvas({maxWidth:2400,maxHeight:2400,imageSmoothingQuality:'high'}).toBlob(blob=>{btn.disabled=false;if(blob)closeCropDialog(blob);else document.getElementById('cropStatus').textContent='Crop ചെയ്യാൻ കഴിഞ്ഞില്ല.';},'image/jpeg',.9);});
@@ -495,10 +503,10 @@ function renderUsefulLinks(){
  const pub=document.getElementById('usefulLinksPublicGrid');pub.replaceChildren();
  const visible=usefulLinkRows.filter(x=>x.is_visible!==false);
  if(!visible.length){const p=document.createElement('p');p.className='muted';p.dataset.ml='ഔദ്യോഗിക ഫോമുകളും ലിങ്കുകളും ലഭ്യമാകുമ്പോൾ ചേർക്കും.';p.dataset.en='Official forms and useful links will be added when available.';pub.appendChild(p);}
- visible.forEach(item=>{const a=document.createElement('a');a.className='tile';a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=lang==='ml'?(item.title_ml||item.title_en):(item.title_en||item.title_ml);a.style.cssText='display:block;color:var(--deep);font-weight:700;text-decoration:none';pub.appendChild(a);});
+ visible.forEach(item=>{const a=document.createElement('a');a.className='tile';a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.style.cssText='display:block;color:var(--deep);font-weight:700;text-decoration:none';const imageUrl=getContentImage('useful-links',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'Useful link';img.loading='lazy';img.className='content-card-image';a.appendChild(img);}const label=document.createElement('span');label.textContent=lang==='ml'?(item.title_ml||item.title_en):(item.title_en||item.title_ml);a.appendChild(label);pub.appendChild(a);});
  const list=document.getElementById('usefulLinkAdminList');list.replaceChildren();if(!usefulLinkAdminMode)return;
  usefulLinkRows.forEach(item=>{const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';const label=document.createElement('strong');label.textContent=(item.title_ml||item.title_en)+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
- const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingUsefulLinkId=item.id;document.getElementById('usefulTitleMl').value=item.title_ml||'';document.getElementById('usefulTitleEn').value=item.title_en||'';document.getElementById('usefulUrl').value=item.url||'';document.getElementById('usefulSortOrder').value=item.sort_order??0;document.getElementById('usefulVisible').checked=item.is_visible!==false;document.getElementById('saveUsefulLink').textContent='Update link';document.getElementById('cancelUsefulEdit').style.display='inline-block';};
+ const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';edit.onclick=()=>{editingUsefulLinkId=item.id;document.getElementById('usefulTitleMl').value=item.title_ml||'';document.getElementById('usefulTitleEn').value=item.title_en||'';document.getElementById('usefulUrl').value=item.url||'';setContentImageField('usefulImageUrl',getContentImage('useful-links',item.id));document.getElementById('usefulSortOrder').value=item.sort_order??0;document.getElementById('usefulVisible').checked=item.is_visible!==false;document.getElementById('saveUsefulLink').textContent='Update link';document.getElementById('cancelUsefulEdit').style.display='inline-block';};
  const del=document.createElement('button');del.type='button';del.className='light';del.textContent='Delete';del.onclick=async()=>{if(!confirm('ഈ ലിങ്ക് നീക്കട്ടെയോ?'))return;const {error}=await window.ssfSupabase.from('useful_links').delete().eq('id',item.id);if(error){document.getElementById('usefulLinkMessage').textContent='നീക്കാൻ കഴിഞ്ഞില്ല.';return;}await loadUsefulLinks(true);};row.append(edit,del);list.appendChild(row);});
 }
 async function loadUsefulLinks(adminMode=false){
@@ -510,8 +518,8 @@ async function loadUsefulLinks(adminMode=false){
 }
 document.getElementById('usefulLinkEditor').addEventListener('submit',async(e)=>{e.preventDefault();const msg=document.getElementById('usefulLinkMessage'),btn=document.getElementById('saveUsefulLink');btn.disabled=true;msg.textContent='സംരക്ഷിക്കുന്നു...';
  const payload={title_ml:document.getElementById('usefulTitleMl').value.trim(),title_en:document.getElementById('usefulTitleEn').value.trim(),url:document.getElementById('usefulUrl').value.trim(),sort_order:Number(document.getElementById('usefulSortOrder').value)||0,is_visible:document.getElementById('usefulVisible').checked};
- const result=editingUsefulLinkId?await window.ssfSupabase.from('useful_links').update(payload).eq('id',editingUsefulLinkId):await window.ssfSupabase.from('useful_links').insert(payload);
- btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. ലിങ്ക് ശരിയാണെന്ന് പരിശോധിക്കുക.';return;}resetUsefulLinkForm();await loadUsefulLinks(true);msg.textContent='ലിങ്ക് സംരക്ഷിച്ചു.';
+ let result,savedId=editingUsefulLinkId;if(editingUsefulLinkId){result=await window.ssfSupabase.from('useful_links').update(payload).eq('id',editingUsefulLinkId);}else{result=await window.ssfSupabase.from('useful_links').insert(payload).select('id').single();savedId=result.data?.id;}
+ btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. ലിങ്ക് ശരിയാണെന്ന് പരിശോധിക്കുക.';return;}if(document.getElementById('usefulImageUrl').value&&savedId){const ok=await saveContentImage('useful-links',savedId,document.getElementById('usefulImageUrl').value);if(!ok){msg.textContent='ലിങ്ക് സംരക്ഷിച്ചു; ചിത്രം ലിങ്ക് save ചെയ്യാൻ കഴിഞ്ഞില്ല.';return;}}resetUsefulLinkForm();await loadUsefulLinks(true);msg.textContent='ലിങ്ക് സംരക്ഷിച്ചു.';
 });
 document.getElementById('cancelUsefulEdit').onclick=resetUsefulLinkForm;
 
@@ -525,7 +533,7 @@ function renderNews(){
  if(!visible.length){const p=document.createElement('p');p.className='muted';p.textContent=lang==='ml'?'പുതിയ അറിയിപ്പുകൾക്കായി ഈ ഭാഗം പരിശോധിക്കുക.':'Check this section for the latest announcements.';pub.appendChild(p);}
  visible.forEach(item=>{
   const card=document.createElement('article');card.className='tile';card.style.margin='10px 0';
-  const h=document.createElement('h3');h.textContent=lang==='ml'?(item.title_ml||item.title_en):(item.title_en||item.title_ml);card.appendChild(h);
+  const imageUrl=getContentImage('news',item.id);if(imageUrl){const img=document.createElement('img');img.src=imageUrl;img.alt=item.title_en||item.title_ml||'News';img.loading='lazy';img.className='content-card-image';card.appendChild(img);}const h=document.createElement('h3');h.textContent=lang==='ml'?(item.title_ml||item.title_en):(item.title_en||item.title_ml);card.appendChild(h);
   const body=document.createElement('p');body.style.whiteSpace='pre-wrap';body.textContent=lang==='ml'?(item.body_ml||item.body_en||''):(item.body_en||item.body_ml||'');if(body.textContent)card.appendChild(body);
   const date=document.createElement('small');date.className='muted';date.textContent=new Date(item.published_at).toLocaleString(lang==='ml'?'ml-IN':'en-IN');card.appendChild(date);pub.appendChild(card);
  });
@@ -534,7 +542,7 @@ function renderNews(){
   const row=document.createElement('div');row.className='tile';row.style.margin='8px 0';
   const label=document.createElement('strong');label.textContent=(item.title_ml||item.title_en)+(item.is_visible===false?' (Hidden)':'');row.appendChild(label);
   const edit=document.createElement('button');edit.type='button';edit.className='light';edit.textContent='Edit';edit.style.margin='8px';
-  edit.onclick=()=>{editingNewsId=item.id;document.getElementById('newsTitleMl').value=item.title_ml||'';document.getElementById('newsTitleEn').value=item.title_en||'';document.getElementById('newsBodyMl').value=item.body_ml||'';document.getElementById('newsBodyEn').value=item.body_en||'';const d=new Date(item.published_at);document.getElementById('newsPublishedAt').value=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);document.getElementById('newsVisible').checked=item.is_visible!==false;document.getElementById('saveNews').textContent='Update news';document.getElementById('cancelNewsEdit').style.display='inline-block';document.getElementById('newsEditor').scrollIntoView({behavior:'smooth'});};
+  edit.onclick=()=>{editingNewsId=item.id;document.getElementById('newsTitleMl').value=item.title_ml||'';document.getElementById('newsTitleEn').value=item.title_en||'';document.getElementById('newsBodyMl').value=item.body_ml||'';document.getElementById('newsBodyEn').value=item.body_en||'';setContentImageField('newsImageUrl',getContentImage('news',item.id));const d=new Date(item.published_at);document.getElementById('newsPublishedAt').value=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);document.getElementById('newsVisible').checked=item.is_visible!==false;document.getElementById('saveNews').textContent='Update news';document.getElementById('cancelNewsEdit').style.display='inline-block';document.getElementById('newsEditor').scrollIntoView({behavior:'smooth'});};
   const del=document.createElement('button');del.type='button';del.className='light';del.textContent='Delete';del.onclick=async()=>{if(!confirm('ഈ വാർത്ത നീക്കട്ടെയോ?'))return;const {error}=await window.ssfSupabase.from('news_announcements').delete().eq('id',item.id);if(error){document.getElementById('newsMessage').textContent='നീക്കാൻ കഴിഞ്ഞില്ല.';return;}await loadNews(true);};
   row.append(edit,del);list.appendChild(row);
  });
@@ -551,8 +559,8 @@ document.getElementById('newsEditor').addEventListener('submit',async(e)=>{
  const published=document.getElementById('newsPublishedAt').value;
  const payload={title_ml:document.getElementById('newsTitleMl').value.trim(),title_en:document.getElementById('newsTitleEn').value.trim(),body_ml:document.getElementById('newsBodyMl').value.trim(),body_en:document.getElementById('newsBodyEn').value.trim(),is_visible:document.getElementById('newsVisible').checked};
  if(published)payload.published_at=new Date(published).toISOString();
- const result=editingNewsId?await window.ssfSupabase.from('news_announcements').update(payload).eq('id',editingNewsId):await window.ssfSupabase.from('news_announcements').insert(payload);
- btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വിവരങ്ങൾ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';return;}
+ let result,savedId=editingNewsId;if(editingNewsId){result=await window.ssfSupabase.from('news_announcements').update(payload).eq('id',editingNewsId);}else{result=await window.ssfSupabase.from('news_announcements').insert(payload).select('id').single();savedId=result.data?.id;}
+ btn.disabled=false;if(result.error){msg.textContent='സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല. വിവരങ്ങൾ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';return;}if(document.getElementById('newsImageUrl').value&&savedId){const ok=await saveContentImage('news',savedId,document.getElementById('newsImageUrl').value);if(!ok){msg.textContent='വാർത്ത സംരക്ഷിച്ചു; ചിത്രം ലിങ്ക് save ചെയ്യാൻ കഴിഞ്ഞില്ല.';return;}}
  resetNewsForm();await loadNews(true);msg.textContent='വാർത്ത സംരക്ഷിച്ചു.';
 });
 document.getElementById('cancelNewsEdit').onclick=resetNewsForm;
