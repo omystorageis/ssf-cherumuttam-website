@@ -500,7 +500,7 @@ document.getElementById('adminLogout').onclick=async()=>{
   loginMessage.textContent='You have been logged out.';
 };
 // Public visitors can read published content through the Supabase public SELECT policies.
-loadBannerSettings();loadAbout();loadActivities();loadEvents();
+loadAbout();loadActivities();loadEvents();
 let activeCropper=null,activeCropResolve=null;
 function cropImageBeforeUpload(file,folder){
  return new Promise(resolve=>{
