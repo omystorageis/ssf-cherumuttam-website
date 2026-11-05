@@ -438,14 +438,35 @@ function syncHomepageSectionsToMenuOrder(){
  ensureSiteSectionIds();
  ensureUnitStatisticsMenuItem();
  const all=getSiteSections(),ordered=[];
+ const legacySectionIds={
+  "legacy-menu-0":"site-section-1",
+  "legacy-menu-1":"unitStatisticsSection",
+  "legacy-menu-2":"site-section-3",
+  "legacy-menu-3":"site-section-4",
+  "legacy-menu-4":"site-section-5",
+  "legacy-menu-5":"site-section-6",
+  "legacy-menu-6":"site-section-7",
+  "legacy-menu-7":"site-section-8",
+  "legacy-menu-8":"site-section-9",
+  "legacy-menu-9":"site-section-10"
+ };
  menuItems.forEach(item=>{
   const url=(item.url||"").trim();
-  const targetId=url.startsWith("#")?url.slice(1):(item.sectionId||"");
   let section=null;
-  if(item.dynamic===true&&item.id)section=document.getElementById(item.id);
-  else if(targetId)section=document.getElementById(targetId);
+  if(item.dynamic===true&&item.id){
+   section=document.getElementById(item.id);
+  }else{
+   const stableId=legacySectionIds[String(item.id||"")];
+   if(stableId)section=document.getElementById(stableId);
+   if(!section){
+    const targetId=url.startsWith("#")?url.slice(1):(item.sectionId||"");
+    if(targetId)section=document.getElementById(targetId);
+   }
+   if(!section&&item.sectionId)section=document.getElementById(item.sectionId);
+  }
   if(!section||!section.matches("main section:not(#admin)")||ordered.includes(section))return;
   item.sectionId=section.id;
+  if(item.dynamic!==true)item.url="#"+section.id;
   const heading=section.querySelector("h2");
   if(heading){
    heading.dataset.ml=item.ml||item.en||heading.dataset.ml||heading.textContent;
