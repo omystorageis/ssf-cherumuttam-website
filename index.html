@@ -467,6 +467,7 @@ function syncHomepageSectionsToMenuOrder(){
   if(!section||!section.matches("main section:not(#admin)")||ordered.includes(section))return;
   item.sectionId=section.id;
   if(item.dynamic!==true)item.url="#"+section.id;
+  section.hidden=item.visible===false;
   const heading=section.querySelector("h2");
   if(heading){
    heading.dataset.ml=item.ml||item.en||heading.dataset.ml||heading.textContent;
